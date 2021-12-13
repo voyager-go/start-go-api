@@ -1,12 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/youeryuango/start-go-api/config"
+	"github.com/voyager-go/start-go-api/config"
 )
 
 func main() {
-	//var c = config.Conf.Redis{}
+	fmt.Println(config.Conf.Mode)
 	r := gin.Default()
 	r.Run(":8090")
 }
