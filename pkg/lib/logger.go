@@ -19,15 +19,16 @@ func NewLogger(logPath, module string) (*Logger, error) {
 	}
 	// 定义文件前缀和日志名称
 	prefix := logPath + "/" + module
-	lastestLogFile := prefix + ".log"
+	latestLogFile := prefix + ".log"
 
 	logClient := logrus.New()
 	logClient.Out = src
+	logClient.Out = os.Stdout // 是否打印到控制台上
 	logClient.SetLevel(logrus.DebugLevel)
 
 	logWriter, err := rotatelogs.New(
-		prefix+".%Y%m%d%H.log",                    // 生成实际日志文件名的模式
-		rotatelogs.WithLinkName(lastestLogFile),   // 生成日志软连接
+		prefix+"-%Y-%m-%d.log",                    // 生成实际日志文件名的模式
+		rotatelogs.WithLinkName(latestLogFile),    // 生成日志软连接
 		rotatelogs.WithMaxAge(30*24*time.Hour),    // 文件最大保存时间
 		rotatelogs.WithRotationTime(24*time.Hour), // 日志切割周期
 	)

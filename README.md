@@ -10,3 +10,4 @@
     - https://github.com/sirupsen/logrus
     - https://github.com/rifflock/lfshook
     - https://github.com/lestrrat-go/file-rotatelogs
+- gorm v2 对象关联映射库 项目地址: https://github.com/go-gorm/gorm

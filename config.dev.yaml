@@ -1,4 +1,5 @@
 server:
+  appName: 'start-go-api'
   port: '8090'
   mode: 'release'
   defaultPageSize: 20 # 默认分页条数
@@ -7,8 +8,8 @@ server:
   jwtSecret: 'LIXLolf0ZJ8qalcwh5FQi5xrzjJQHLpy'
 log:
   debug: true
-  fileName: 'server.log' # 日志文件名称
-  dirPath: '/Users/artist/Program/go/start-go-api' # 日志默认存放目录
+  fileName: 'start-go-api' # 日志文件名称
+  dirPath: '/Users/artist/Program/go/start-go-api/storage/logs' # 日志默认存放目录
 mysql:
   host: '127.0.0.1'
   port: '3306'

@@ -1,13 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/voyager-go/start-go-api/config"
+	_ "github.com/voyager-go/start-go-api/bootstrap"
 )
 
 func main() {
-	fmt.Println(config.Conf.Mode)
 	r := gin.Default()
 	r.Run(":8090")
 }

@@ -26,8 +26,8 @@ type Server struct {
 
 type Log struct {
 	Debug    string `yaml:"debug"`
-	FileName string `yaml:"file_name"`
-	DirPath  string `yaml:"dir_path"`
+	FileName string `yaml:"fileName"`
+	DirPath  string `yaml:"dirPath"`
 }
 type Mysql struct {
 	Host     string `yaml:"host"`
