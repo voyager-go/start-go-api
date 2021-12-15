@@ -15,12 +15,12 @@ type DataBaseConfig struct {
 	Port     string
 	User     string
 	Password string
-	DataBase string
+	DbName   string
 }
 
 // NewMysql 构造MySQL服务
 func NewMysql(config DataBaseConfig) (*gorm.DB, error) {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/dbname?charset=utf8mb4&parseTime=True&loc=Local", config.User, config.Password, config.Host, config.Port)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", config.User, config.Password, config.Host, config.Port, config.DbName)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
 			SingularTable: true, // 是否设置单数表名，设置为 是

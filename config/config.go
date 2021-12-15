@@ -34,7 +34,7 @@ type Mysql struct {
 	Port     string `yaml:"port"`
 	User     string `yaml:"user"`
 	Password string `yaml:"password"`
-	Database string `yaml:"database"`
+	DbName   string `yaml:"DbName"`
 }
 type Redis struct {
 	host     string `yaml:"host"`

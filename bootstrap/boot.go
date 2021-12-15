@@ -18,7 +18,7 @@ const (
 type bootServiceMap map[string]func() error
 
 var (
-	Mysql  *gorm.DB    // 数据库
+	Mysql  *gorm.DB    // MySQL数据库
 	Logger *lib.Logger // 日志
 )
 
@@ -36,7 +36,7 @@ func BootLogger() error {
 	if Logger != nil {
 		return nil
 	}
-	Logger, err := lib.NewLogger(config.Conf.DirPath, config.Conf.FileName)
+	_, err := lib.NewLogger(config.Conf.DirPath, config.Conf.FileName)
 	if err == nil {
 		fmt.Println("程序载入日志服务成功! 模块为:" + config.Conf.FileName + ", 日志路径为:" + config.Conf.DirPath)
 	}
@@ -53,9 +53,9 @@ func BootMysql() error {
 		Port:     config.Conf.Mysql.Port,
 		User:     config.Conf.User,
 		Password: config.Conf.Mysql.Password,
-		DataBase: config.Conf.Database,
+		DbName:   config.Conf.DbName,
 	}
-	Mysql, err := lib.NewMysql(dbCfg)
+	_, err := lib.NewMysql(dbCfg)
 	if err == nil {
 		fmt.Println("程序载入MySQL服务成功!")
 	}
