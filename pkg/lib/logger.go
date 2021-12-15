@@ -12,6 +12,7 @@ type Logger struct {
 	*logrus.Logger
 }
 
+// NewLogger 构造日志服务
 func NewLogger(logPath, module string) (*Logger, error) {
 	src, err := os.OpenFile(os.DevNull, os.O_APPEND|os.O_WRONLY, os.ModeAppend)
 	if err != nil {
