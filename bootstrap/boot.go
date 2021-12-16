@@ -2,6 +2,7 @@ package bootstrap
 
 import (
 	"fmt"
+	"github.com/go-redis/redis/v8"
 	"github.com/voyager-go/start-go-api/config"
 	"github.com/voyager-go/start-go-api/pkg/lib"
 	"github.com/voyager-go/start-go-api/pkg/util"
@@ -18,8 +19,9 @@ const (
 type bootServiceMap map[string]func() error
 
 var (
-	Mysql  *gorm.DB    // MySQL数据库
-	Logger *lib.Logger // 日志
+	Mysql  *gorm.DB      // MySQL数据库
+	Logger *lib.Logger   // 日志
+	Redis  *redis.Client // Redis连接池
 )
 
 // BootedService 已经加载的服务
@@ -29,6 +31,25 @@ var BootedService []string
 var serviceMap = bootServiceMap{
 	LogService:   BootLogger,
 	MysqlService: BootMysql,
+	RedisService: BootRedis,
+}
+
+// BootRedis 将配置载入Redis服务
+func BootRedis() error {
+	if Redis != nil {
+		return nil
+	}
+	rdsCfg := lib.RdsConfig{
+		Addr:     fmt.Sprintf("%s:%s", config.Conf.Redis.Host, config.Conf.Redis.Port),
+		Password: config.Conf.Redis.Password,
+		DbNum:    config.Conf.Redis.DbNum,
+	}
+	var err error
+	Redis, err = lib.NewRedis(rdsCfg)
+	if err == nil {
+		fmt.Println("程序载入Redis服务成功! ")
+	}
+	return err
 }
 
 // BootLogger 将配置载入日志服务
@@ -36,7 +57,8 @@ func BootLogger() error {
 	if Logger != nil {
 		return nil
 	}
-	_, err := lib.NewLogger(config.Conf.DirPath, config.Conf.FileName)
+	var err error
+	Logger, err = lib.NewLogger(config.Conf.DirPath, config.Conf.FileName)
 	if err == nil {
 		fmt.Println("程序载入日志服务成功! 模块为:" + config.Conf.FileName + ", 日志路径为:" + config.Conf.DirPath)
 	}
@@ -49,13 +71,14 @@ func BootMysql() error {
 		return nil
 	}
 	dbCfg := lib.DataBaseConfig{
-		Host:     config.Conf.Host,
+		Host:     config.Conf.Mysql.Host,
 		Port:     config.Conf.Mysql.Port,
-		User:     config.Conf.User,
+		User:     config.Conf.Mysql.User,
 		Password: config.Conf.Mysql.Password,
-		DbName:   config.Conf.DbName,
+		DbName:   config.Conf.Mysql.DbName,
 	}
-	_, err := lib.NewMysql(dbCfg)
+	var err error
+	Mysql, err = lib.NewMysql(dbCfg)
 	if err == nil {
 		fmt.Println("程序载入MySQL服务成功!")
 	}
