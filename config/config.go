@@ -23,6 +23,7 @@ type Server struct {
 	DefaultPageSize uint64 `yaml:"defaultPageSize"`
 	MaxPageSize     uint64 `yaml:"maxPageSize"`
 	TokenExpire     int    `yaml:"tokenExpire"`
+	TokenKey        string `yaml:"tokenKey"`
 	JwtSecret       string `yaml:"jwtSecret"`
 }
 
@@ -39,10 +40,11 @@ type Mysql struct {
 	DbName   string `yaml:"DbName"`
 }
 type Redis struct {
-	Host     string `yaml:"host"`
-	Port     string `yaml:"port"`
-	Password string `yaml:"password"`
-	DbNum    int    `yaml:"dbNum"`
+	Host        string `yaml:"host"`
+	Port        string `yaml:"port"`
+	Password    string `yaml:"password"`
+	DbNum       int    `yaml:"dbNum"`
+	LoginPrefix string `yaml:"loginPrefix"`
 }
 
 // init 初始化配置信息
