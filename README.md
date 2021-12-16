@@ -14,3 +14,4 @@
 - strutil 常用工具库 项目地址: https://github.com/gookit/goutil/tree/master/strutil
 - go-redis 项目地址: https://github.com/go-redis/redis
 - jwt-go 项目地址: https://github.com/dgrijalva/jwt-go
+- cors 项目地址: https://github.com/gin-contrib/cors
