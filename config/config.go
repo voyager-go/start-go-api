@@ -3,11 +3,12 @@ package config
 import (
 	"flag"
 	"fmt"
-	"github.com/voyager-go/start-go-api/global"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
 )
+
+var Conf *Yaml
 
 type Yaml struct {
 	Server `yaml:"server"`
@@ -44,6 +45,7 @@ type Redis struct {
 	DbNum    int    `yaml:"dbNum"`
 }
 
+// init 初始化配置信息
 func init() {
 	var defaultConfigFile = fmt.Sprintf("../config.%s.yaml", os.Getenv("SERVER_ENV"))
 	configFile := flag.String("c", defaultConfigFile, "help config path")
@@ -59,5 +61,5 @@ func init() {
 	if err != nil {
 
 	}
-	global.Conf = c
+	Conf = c
 }

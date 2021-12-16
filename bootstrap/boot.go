@@ -2,6 +2,7 @@ package bootstrap
 
 import (
 	"fmt"
+	"github.com/voyager-go/start-go-api/config"
 	"github.com/voyager-go/start-go-api/global"
 	"github.com/voyager-go/start-go-api/pkg/lib"
 	"github.com/voyager-go/start-go-api/pkg/util"
@@ -32,9 +33,9 @@ func BootRedis() error {
 		return nil
 	}
 	rdsCfg := lib.RdsConfig{
-		Addr:     fmt.Sprintf("%s:%s", global.Conf.Redis.Host, global.Conf.Redis.Port),
-		Password: global.Conf.Redis.Password,
-		DbNum:    global.Conf.Redis.DbNum,
+		Addr:     fmt.Sprintf("%s:%s", config.Conf.Redis.Host, config.Conf.Redis.Port),
+		Password: config.Conf.Redis.Password,
+		DbNum:    config.Conf.Redis.DbNum,
 	}
 	var err error
 	global.Redis, err = lib.NewRedis(rdsCfg)
@@ -50,9 +51,9 @@ func BootLogger() error {
 		return nil
 	}
 	var err error
-	global.Logger, err = lib.NewLogger(global.Conf.DirPath, global.Conf.FileName)
+	global.Logger, err = lib.NewLogger(config.Conf.DirPath, config.Conf.FileName)
 	if err == nil {
-		fmt.Println("程序载入日志服务成功! 模块为:" + global.Conf.FileName + ", 日志路径为:" + global.Conf.DirPath)
+		fmt.Println("程序载入日志服务成功! 模块为:" + config.Conf.FileName + ", 日志路径为:" + config.Conf.DirPath)
 	}
 	return err
 }
@@ -63,11 +64,11 @@ func BootMysql() error {
 		return nil
 	}
 	dbCfg := lib.DataBaseConfig{
-		Host:     global.Conf.Mysql.Host,
-		Port:     global.Conf.Mysql.Port,
-		User:     global.Conf.Mysql.User,
-		Password: global.Conf.Mysql.Password,
-		DbName:   global.Conf.Mysql.DbName,
+		Host:     config.Conf.Mysql.Host,
+		Port:     config.Conf.Mysql.Port,
+		User:     config.Conf.Mysql.User,
+		Password: config.Conf.Mysql.Password,
+		DbName:   config.Conf.Mysql.DbName,
 	}
 	var err error
 	global.DB, err = lib.NewMysql(dbCfg)
