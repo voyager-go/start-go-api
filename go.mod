@@ -3,6 +3,7 @@ module github.com/voyager-go/start-go-api
 go 1.16
 
 require (
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/gin-gonic/gin v1.7.7
 	github.com/go-redis/redis/v8 v8.11.4
 	github.com/jinzhu/now v1.1.4 // indirect

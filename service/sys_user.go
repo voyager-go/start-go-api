@@ -16,7 +16,7 @@ func (u *SysUserService) CreateUser(r *entity.SysUserServiceCreateReq) error {
 	if u.CheckPhoneExists(r.Phone) {
 		return errors.New("该手机号已经存在")
 	}
-	statusSlice := []int{entity.SysUserStatusFalse, entity.SysUserStatusTrue}
+	statusSlice := []int{entity.SysUserStatusForbidden, entity.SysUserStatusNormal}
 	if !util.InIntSlice(int(r.Status), statusSlice) {
 		return errors.New("用户状态有误")
 	}
