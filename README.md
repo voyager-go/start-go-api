@@ -12,3 +12,4 @@
     - https://github.com/lestrrat-go/file-rotatelogs
 - gorm v2 对象关联映射库 项目地址: https://github.com/go-gorm/gorm
 - strutil 常用工具库 项目地址: https://github.com/gookit/goutil/tree/master/strutil
+- go-redis 项目地址: https://github.com/go-redis/redis
