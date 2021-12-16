@@ -2,11 +2,9 @@ package bootstrap
 
 import (
 	"fmt"
-	"github.com/go-redis/redis/v8"
-	"github.com/voyager-go/start-go-api/config"
+	"github.com/voyager-go/start-go-api/global"
 	"github.com/voyager-go/start-go-api/pkg/lib"
 	"github.com/voyager-go/start-go-api/pkg/util"
-	"gorm.io/gorm"
 )
 
 // 定义服务列表
@@ -17,12 +15,6 @@ const (
 )
 
 type bootServiceMap map[string]func() error
-
-var (
-	Mysql  *gorm.DB      // MySQL数据库
-	Logger *lib.Logger   // 日志
-	Redis  *redis.Client // Redis连接池
-)
 
 // BootedService 已经加载的服务
 var BootedService []string
@@ -36,16 +28,16 @@ var serviceMap = bootServiceMap{
 
 // BootRedis 将配置载入Redis服务
 func BootRedis() error {
-	if Redis != nil {
+	if global.Redis != nil {
 		return nil
 	}
 	rdsCfg := lib.RdsConfig{
-		Addr:     fmt.Sprintf("%s:%s", config.Conf.Redis.Host, config.Conf.Redis.Port),
-		Password: config.Conf.Redis.Password,
-		DbNum:    config.Conf.Redis.DbNum,
+		Addr:     fmt.Sprintf("%s:%s", global.Conf.Redis.Host, global.Conf.Redis.Port),
+		Password: global.Conf.Redis.Password,
+		DbNum:    global.Conf.Redis.DbNum,
 	}
 	var err error
-	Redis, err = lib.NewRedis(rdsCfg)
+	global.Redis, err = lib.NewRedis(rdsCfg)
 	if err == nil {
 		fmt.Println("程序载入Redis服务成功! ")
 	}
@@ -54,31 +46,31 @@ func BootRedis() error {
 
 // BootLogger 将配置载入日志服务
 func BootLogger() error {
-	if Logger != nil {
+	if global.Logger != nil {
 		return nil
 	}
 	var err error
-	Logger, err = lib.NewLogger(config.Conf.DirPath, config.Conf.FileName)
+	global.Logger, err = lib.NewLogger(global.Conf.DirPath, global.Conf.FileName)
 	if err == nil {
-		fmt.Println("程序载入日志服务成功! 模块为:" + config.Conf.FileName + ", 日志路径为:" + config.Conf.DirPath)
+		fmt.Println("程序载入日志服务成功! 模块为:" + global.Conf.FileName + ", 日志路径为:" + global.Conf.DirPath)
 	}
 	return err
 }
 
 // BootMysql 将配置载入mysql服务
 func BootMysql() error {
-	if Mysql != nil {
+	if global.DB != nil {
 		return nil
 	}
 	dbCfg := lib.DataBaseConfig{
-		Host:     config.Conf.Mysql.Host,
-		Port:     config.Conf.Mysql.Port,
-		User:     config.Conf.Mysql.User,
-		Password: config.Conf.Mysql.Password,
-		DbName:   config.Conf.Mysql.DbName,
+		Host:     global.Conf.Mysql.Host,
+		Port:     global.Conf.Mysql.Port,
+		User:     global.Conf.Mysql.User,
+		Password: global.Conf.Mysql.Password,
+		DbName:   global.Conf.Mysql.DbName,
 	}
 	var err error
-	Mysql, err = lib.NewMysql(dbCfg)
+	global.DB, err = lib.NewMysql(dbCfg)
 	if err == nil {
 		fmt.Println("程序载入MySQL服务成功!")
 	}
@@ -89,8 +81,8 @@ func BootMysql() error {
 // 日志服务默认加载，其它服务可选
 func RunService(services ...string) {
 	serviceMap[LogService] = BootLogger
-	if Logger != nil {
-		Logger.Infof("服务列表已加载完成!")
+	if global.Logger != nil {
+		global.Logger.Infof("服务列表已加载完成!")
 	}
 	if len(services) == 0 {
 		services = serviceMap.keys()
