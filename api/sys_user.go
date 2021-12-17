@@ -12,3 +12,7 @@ var SysUser = SysUserApi{}
 func (u *SysUserApi) Find(ctx *gin.Context) {
 	response.Ok(ctx)
 }
+
+func (u *SysUserApi) Login(ctx *gin.Context) {
+	response.OkWithData(ctx, gin.H{"token": "saklsajlsdajldkaslj"})
+}

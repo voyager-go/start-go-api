@@ -1,4 +1,4 @@
-package global
+package app
 
 import (
 	"context"
@@ -8,6 +8,7 @@ import (
 	"github.com/voyager-go/start-go-api/config"
 	"github.com/voyager-go/start-go-api/dao"
 	"github.com/voyager-go/start-go-api/entity"
+	"github.com/voyager-go/start-go-api/global"
 	"github.com/voyager-go/start-go-api/pkg/auth"
 	"strconv"
 )
@@ -52,7 +53,7 @@ func GetLoginUser(ctx *gin.Context) (LoginUser, error) {
 	}
 	Uid := info.UserId
 	// 从Redis中查询
-	result, err := Redis.Get(context.Background(), config.Conf.Redis.LoginPrefix+strconv.FormatInt(Uid, 10)).Result()
+	result, err := global.Redis.Get(context.Background(), config.Conf.Redis.LoginPrefix+strconv.FormatInt(Uid, 10)).Result()
 	if err != nil {
 		return LoginUser{}, err
 	}
@@ -68,5 +69,4 @@ func GetLoginUser(ctx *gin.Context) (LoginUser, error) {
 		return LoginUser{}, err
 	}
 	return LoginUser{user}, nil
-
 }
