@@ -24,6 +24,7 @@ type Server struct {
 	MaxPageSize     uint64 `yaml:"maxPageSize"`
 	TokenExpire     int64  `yaml:"tokenExpire"`
 	TokenKey        string `yaml:"tokenKey"`
+	TokenIssuer     string `yaml:"tokenIssuer"`
 	JwtSecret       string `yaml:"jwtSecret"`
 }
 

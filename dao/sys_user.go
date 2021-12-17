@@ -1,7 +1,11 @@
 package dao
 
 import (
+	"context"
+	"encoding/json"
 	"errors"
+	"github.com/gogf/gf/util/gconv"
+	"github.com/voyager-go/start-go-api/config"
 	"github.com/voyager-go/start-go-api/entity"
 	"github.com/voyager-go/start-go-api/global"
 	"golang.org/x/crypto/bcrypt"
@@ -14,6 +18,15 @@ var SysUser = new(SysUserDao)
 // FindOneById 根据用户编号查找一条用户记录
 func (u *SysUserDao) FindOneById(uid int64, ifNeedNormal bool) (entity.SysUser, error) {
 	user := entity.SysUser{}
+	// 先从redis中取数据
+	jsonData, err := global.Redis.Get(context.Background(), config.Conf.Redis.LoginPrefix+gconv.String(uid)).Result()
+	if err == nil {
+		err := json.Unmarshal([]byte(jsonData), &user)
+		if err == nil {
+			return user, nil
+		}
+	}
+	// redis中取数据异常，再从mysql中取数据
 	result := global.DB.Model(&entity.SysUser{}).Where("id = ?", uid).Find(&user)
 	if ifNeedNormal && user.Status == entity.SysUserStatusForbidden {
 		return user, errors.New("用户状态异常")
@@ -54,7 +67,7 @@ func (u *SysUserDao) Update(userData entity.SysUser) error {
 func (u *SysUserDao) CheckPhoneExists(phone string, ignoreId int64) bool {
 	var num int64
 	q := global.DB.Model(&entity.SysUser{})
-	if ignoreId != 0 {
+	if ignoreId == 0 {
 		q.Where("phone = ?", phone)
 	} else {
 		q.Where("phone = ? AND id <> ?", phone, ignoreId)

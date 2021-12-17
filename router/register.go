@@ -32,10 +32,10 @@ func Register() *gin.Engine {
 		apiGroup     = router.Group("/api", publicMiddleware...)
 		apiNeedLogin = router.Group("/api", append(publicMiddleware, middleware.NeedLogin)...)
 	)
-	apiNeedLogin.POST("/user/auth", api.SysUser.Login)
-	apiGroup.GET("/user/:id", api.SysUser.Find)
-	apiGroup.PUT("/user", api.SysUser.Update)
-	apiGroup.POST("/user", api.SysUser.Create)
+	apiGroup.POST("/user/auth", api.SysUser.Login)
+	apiNeedLogin.GET("/user/:id", api.SysUser.Find)
+	apiNeedLogin.PUT("/user", api.SysUser.Update)
+	apiNeedLogin.POST("/user", api.SysUser.Create)
 
 	return router
 }

@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gogf/gf/util/gconv"
 	"github.com/voyager-go/start-go-api/dao"
@@ -66,5 +65,9 @@ func (u SysUserApi) Login(ctx *gin.Context) {
 		return
 	}
 	token, err := service.User.Login(args)
-	fmt.Println(token)
+	if err != nil {
+		response.FailWithMessage(ctx, err.Error())
+		return
+	}
+	response.OkWithData(ctx, token)
 }

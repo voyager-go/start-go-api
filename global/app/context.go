@@ -18,7 +18,7 @@ type LoginUser struct {
 }
 
 type TokenPayload struct {
-	UserId int64 `json:"uid"`
+	UserId int64 `json:"id"`
 }
 
 // ParseUserByToken 通过Token 解析用户

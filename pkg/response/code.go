@@ -18,7 +18,7 @@ const (
 var CodeMap = map[Code]string{
 	Success:          "请求成功",
 	Failed:           "请求失败",
-	UnAuthed:         "未认证",
+	UnAuthed:         "用户未认证",
 	InternalErr:      "服务器内部错误",
 	RequestMethodErr: "请求方式错误",
 	RequestParamErr:  "请求参数错误",

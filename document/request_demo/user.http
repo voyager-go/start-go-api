@@ -2,14 +2,18 @@
 POST {{baseUrl}}/user/auth
 Content-Type: application/json
 
-### 查询某个用户详情
-GET {{baseUrl}}/user/1
+{"phone": "15105191183","password": "123456"}
 
-### 更改用户状态
+### 查询某个用户详情
+GET {{baseUrl}}/user/3
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjozLCJjcmVhdGVkX2F0IjoxNjM5NzIyNzg4LCJuaWNrbmFtZSI6IuS7iuWkqeaYr-S4quWlveaXpeWtkCIsInBob25lIjoiMTUxMDUxOTExODMiLCJwYXNzd29yZCI6IiQyYSQxMCRCcTVSTTdKaC5EdWdGVDU1ZjV0OHQuamZheHdRNWNHR2ZiTy9IVS55eW1HQTd4TGJCaVl4TyIsInN0YXR1cyI6MX0sImV4cCI6MTYzOTc0MjA2MywiaXNzIjoic3RhcnQtZ28tYXBpIn0.wop3eEgD5vm6-rJxf2jGaxT53GNV75W3AnTPPCeP13M
+
+### 更改用户信息
 PUT {{baseUrl}}/user
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjozLCJjcmVhdGVkX2F0IjoxNjM5NzIyNzg4LCJuaWNrbmFtZSI6IuWkqeWkqeW8gOW_gyIsInBob25lIjoiMTUxMDUxOTExODMiLCJwYXNzd29yZCI6IiQyYSQxMCRCcTVSTTdKaC5EdWdGVDU1ZjV0OHQuamZheHdRNWNHR2ZiTy9IVS55eW1HQTd4TGJCaVl4TyIsInN0YXR1cyI6MX0sImV4cCI6MTY0MDMzNTE1MiwiaXNzIjoic3RhcnQtZ28tYXBpIn0.t18QBvXHQMW2EmvSl7OphRrZbVUOC1yxXeIT1IWQBww
 
-{"nickname":"天天开心","status":1,"phone": "15105191183","id": 3}
+{"nickname":"今天是个好日子","status":1,"phone": "15105191183","id": 3}
 
 ###
 POST {{baseUrl}}/user

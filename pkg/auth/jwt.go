@@ -3,6 +3,7 @@ package auth
 import (
 	"errors"
 	"github.com/dgrijalva/jwt-go"
+	"time"
 )
 
 // JwtPayload 载荷
@@ -16,7 +17,7 @@ func GenerateJwtToken(secret string, expire int64, user interface{}, issuer stri
 	data := JwtPayload{
 		User: user,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: expire,
+			ExpiresAt: time.Now().Unix() + expire,
 			Issuer:    issuer,
 		},
 	}

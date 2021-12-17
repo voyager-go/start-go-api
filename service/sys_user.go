@@ -1,13 +1,17 @@
 package service
 
 import (
+	"context"
+	"encoding/json"
 	"errors"
 	"github.com/gogf/gf/util/gconv"
 	"github.com/voyager-go/start-go-api/config"
 	"github.com/voyager-go/start-go-api/dao"
 	"github.com/voyager-go/start-go-api/entity"
+	"github.com/voyager-go/start-go-api/global"
 	"github.com/voyager-go/start-go-api/pkg/auth"
 	"github.com/voyager-go/start-go-api/pkg/util"
+	"time"
 )
 
 type SysUserService struct{}
@@ -61,9 +65,17 @@ func (u SysUserService) Login(r entity.SysUserServiceTokenReq) (string, error) {
 	if err != nil {
 		return "", errors.New("手机号与密码不匹配")
 	}
-	jwtToken, err := auth.GenerateJwtToken(config.Conf.TokenKey, config.Conf.TokenExpire, user, "start go api")
+	jwtToken, err := auth.GenerateJwtToken(config.Conf.Server.JwtSecret, config.Conf.TokenExpire, user, config.Conf.Server.TokenIssuer)
 	if err != nil {
 		return "", errors.New("token生成失败")
+	}
+	marshal, err := json.Marshal(user)
+	if err != nil {
+		return "", err
+	}
+	err = global.Redis.Set(context.Background(), config.Conf.Redis.LoginPrefix+gconv.String(user.ID), string(marshal), time.Duration(config.Conf.Server.TokenExpire)*time.Second).Err()
+	if err != nil {
+		return "", errors.New("用户信息持久化失败")
 	}
 	return jwtToken, nil
 }
