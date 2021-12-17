@@ -60,7 +60,7 @@ func GetLoginUser(ctx *gin.Context) (LoginUser, error) {
 	user := entity.SysUser{}
 	if result == "" {
 		// 从数据库中查询
-		user, err = dao.SysUser.FindOneById(Uid)
+		user, err = dao.SysUser.FindOneById(Uid, true)
 
 	} else {
 		err = json.Unmarshal([]byte(result), &user)

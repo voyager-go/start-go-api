@@ -29,11 +29,12 @@ func Register() *gin.Engine {
 			middleware.IpAuth(),
 		}
 		// 用户组
-		user          = router.Group("/user", publicMiddleware...)
-		userNeedLogin = router.Group("/user", append(publicMiddleware, middleware.NeedLogin)...)
+		apiGroup     = router.Group("/api", publicMiddleware...)
+		apiNeedLogin = router.Group("/api", append(publicMiddleware, middleware.NeedLogin)...)
 	)
-	user.POST("/auth", api.SysUser.Login)
-	userNeedLogin.GET("/find", api.SysUser.Find)
+	apiNeedLogin.POST("/user/auth", api.SysUser.Login)
+	apiGroup.GET("/user/:id", api.SysUser.Find)
+	apiGroup.PUT("/user", api.SysUser.ChangeStatus)
 
 	return router
 }

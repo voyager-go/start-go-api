@@ -14,3 +14,9 @@ type SysUserServiceCreateReq struct {
 	Password string
 	Status   int8
 }
+
+// SysUserServiceChangeStatusReq 更新用户状态
+type SysUserServiceChangeStatusReq struct {
+	Id     int64 `json:"id"`
+	Status int8  `json:"status"`
+}
