@@ -15,3 +15,4 @@
 - go-redis 项目地址: https://github.com/go-redis/redis
 - jwt-go 项目地址: https://github.com/dgrijalva/jwt-go
 - cors 项目地址: https://github.com/gin-contrib/cors
+- gconv 类型转换库 项目地址: https://godoc.org/github.com/gogf/gf/util/gconv
