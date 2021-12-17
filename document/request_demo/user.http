@@ -3,5 +3,12 @@ POST {{baseUrl}}/user/auth
 Content-Type: application/json
 
 ### 查询某个用户详情
-GET {{baseUrl}}/user/find
+GET {{baseUrl}}/user/1
+
+### 更改用户状态
+PUT {{baseUrl}}/user
+Content-Type: application/json
+
+{"id":1,"status":1}
+###
 
