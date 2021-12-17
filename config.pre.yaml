@@ -5,7 +5,7 @@ server:
   defaultPageSize: 20 # 默认分页条数
   maxPageSize: 500    # 最大分页条数
   tokenExpire: 600000 # token过期时间
-  tokenKey: 'Authorization', # token的键名
+  tokenKey: 'Authorization' # token的键名
   jwtSecret: 'LIXLolf0ZJ8qalcwh5FQi5xrzjJQHLpy'
 log:
   debug: true
@@ -22,3 +22,4 @@ redis:
   port: '6379'
   password: ''
   dbNum: 0
+  loginPrefix: 'start_go_api_login_' # 登录用户存入redis键名的前缀

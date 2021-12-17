@@ -1,0 +1,7 @@
+### 获取令牌
+POST {{baseUrl}}/user/auth
+Content-Type: application/json
+
+### 查询某个用户详情
+GET {{baseUrl}}/user/find
+

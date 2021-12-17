@@ -37,7 +37,7 @@ type Mysql struct {
 	Port     string `yaml:"port"`
 	User     string `yaml:"user"`
 	Password string `yaml:"password"`
-	DbName   string `yaml:"DbName"`
+	DbName   string `yaml:"dbname"`
 }
 type Redis struct {
 	Host        string `yaml:"host"`
@@ -61,7 +61,7 @@ func init() {
 	c := &Yaml{}
 	err = yaml.Unmarshal(yamlConf, c)
 	if err != nil {
-
+		panic(fmt.Errorf("解析配置文件失败: %s", err))
 	}
 	Conf = c
 }
