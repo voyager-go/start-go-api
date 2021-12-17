@@ -4,8 +4,11 @@ import (
 	"fmt"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/voyager-go/start-go-api/api"
 	"github.com/voyager-go/start-go-api/config"
+	"github.com/voyager-go/start-go-api/docs"
 	"github.com/voyager-go/start-go-api/middleware"
 	"net/http"
 )
@@ -20,6 +23,9 @@ func Register() *gin.Engine {
 		method := ctx.Request.Method
 		ctx.JSON(http.StatusNotFound, fmt.Sprintf("%s %s not found", method, path))
 	})
+	// swagger 配置
+	docs.SwaggerInfo.BasePath = "/api"
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	// 健康检查
 	router.GET("/ping", api.Check.Ping)
 	// 路由分组

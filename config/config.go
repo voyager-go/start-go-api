@@ -50,7 +50,7 @@ type Redis struct {
 
 // init 初始化配置信息
 func init() {
-	var defaultConfigFile = fmt.Sprintf("../config.%s.yaml", os.Getenv("SERVER_ENV"))
+	var defaultConfigFile = fmt.Sprintf("config.%s.yaml", os.Getenv("SERVER_ENV"))
 	configFile := flag.String("c", defaultConfigFile, "help config path")
 	flag.Parse()
 	yamlConf, err := ioutil.ReadFile(*configFile)

@@ -13,6 +13,17 @@ type SysUserApi struct{}
 
 var SysUser = new(SysUserApi)
 
+// @BasePath /api
+
+// Find godoc
+// @Summary ping example
+// @Schemes
+// @Description do ping
+// @Tags example
+// @Accept json
+// @Produce json
+// @Success 200 {string} response.OkWithData
+// @Router /user/:id [get]
 func (u SysUserApi) Find(ctx *gin.Context) {
 	id := gconv.Int64(ctx.Param("id"))
 	if id == 0 {
