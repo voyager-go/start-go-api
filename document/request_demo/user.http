@@ -9,6 +9,11 @@ GET {{baseUrl}}/user/1
 PUT {{baseUrl}}/user
 Content-Type: application/json
 
-{"id":1,"status":1}
-###
+{"nickname":"天天开心","status":1,"phone": "15105191183","id": 3}
 
+###
+POST {{baseUrl}}/user
+Content-Type: application/json
+
+{"nickname":"岁岁平安","password": "123456","phone": "15106191181","status":1}
+###

@@ -22,7 +22,7 @@ type Server struct {
 	Mode            string `yaml:"mode"`
 	DefaultPageSize uint64 `yaml:"defaultPageSize"`
 	MaxPageSize     uint64 `yaml:"maxPageSize"`
-	TokenExpire     int    `yaml:"tokenExpire"`
+	TokenExpire     int64  `yaml:"tokenExpire"`
 	TokenKey        string `yaml:"tokenKey"`
 	JwtSecret       string `yaml:"jwtSecret"`
 }

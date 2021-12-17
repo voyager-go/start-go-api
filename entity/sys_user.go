@@ -9,14 +9,22 @@ const SysUserStatusForbidden = 0 // 禁用
 
 // SysUserServiceCreateReq 创新sys_user输入参数
 type SysUserServiceCreateReq struct {
-	Nickname string
-	Phone    string
-	Password string
-	Status   int8
+	Nickname string `json:"nickname"`
+	Phone    string `json:"phone"`
+	Password string `json:"password"`
+	Status   int8   `json:"status"`
 }
 
-// SysUserServiceChangeStatusReq 更新用户状态
-type SysUserServiceChangeStatusReq struct {
-	Id     int64 `json:"id"`
-	Status int8  `json:"status"`
+// SysUserServiceUpdateReq 更新sys_user输入参数
+type SysUserServiceUpdateReq struct {
+	Id       int64  `json:"id"`
+	Nickname string `json:"nickname"`
+	Phone    string `json:"phone"`
+	Status   int8   `json:"status"`
+}
+
+// SysUserServiceTokenReq 请求发放令牌
+type SysUserServiceTokenReq struct {
+	Phone    string `json:"phone"`
+	Password string `json:"password"`
 }

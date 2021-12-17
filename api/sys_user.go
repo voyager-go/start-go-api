@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gogf/gf/util/gconv"
 	"github.com/voyager-go/start-go-api/dao"
@@ -11,9 +12,9 @@ import (
 
 type SysUserApi struct{}
 
-var SysUser = SysUserApi{}
+var SysUser = new(SysUserApi)
 
-func (u *SysUserApi) Find(ctx *gin.Context) {
+func (u SysUserApi) Find(ctx *gin.Context) {
 	id := gconv.Int64(ctx.Param("id"))
 	if id == 0 {
 		response.FailWithDetail(ctx, response.RequestParamErr)
@@ -27,18 +28,14 @@ func (u *SysUserApi) Find(ctx *gin.Context) {
 	response.OkWithData(ctx, user)
 }
 
-func (u SysUserApi) ChangeStatus(ctx *gin.Context) {
-	var data entity.SysUserServiceChangeStatusReq
-	err := ctx.ShouldBindJSON(&data)
-	if data.Id == 0 {
-		response.FailWithDetail(ctx, response.RequestParamErr)
-		return
-	}
+func (u SysUserApi) Create(ctx *gin.Context) {
+	var args entity.SysUserServiceCreateReq
+	err := ctx.ShouldBindJSON(&args)
 	if err != nil {
 		response.FailWithDetail(ctx, response.RequestParamErr)
 		return
 	}
-	err = service.User.ChangeUserStatus(data)
+	err = service.User.CreateUser(args)
 	if err != nil {
 		response.FailWithMessage(ctx, err.Error())
 		return
@@ -46,6 +43,28 @@ func (u SysUserApi) ChangeStatus(ctx *gin.Context) {
 	response.Ok(ctx)
 }
 
-func (u *SysUserApi) Login(ctx *gin.Context) {
-	response.OkWithData(ctx, gin.H{"token": "saklsajlsdajldkaslj"})
+func (u SysUserApi) Update(ctx *gin.Context) {
+	var args entity.SysUserServiceUpdateReq
+	err := ctx.ShouldBindJSON(&args)
+	if err != nil {
+		response.FailWithDetail(ctx, response.RequestParamErr)
+		return
+	}
+	err = service.User.UpdateUser(args)
+	if err != nil {
+		response.FailWithMessage(ctx, err.Error())
+		return
+	}
+	response.Ok(ctx)
+}
+
+func (u SysUserApi) Login(ctx *gin.Context) {
+	var args entity.SysUserServiceTokenReq
+	err := ctx.ShouldBindJSON(&args)
+	if err != nil {
+		response.FailWithDetail(ctx, response.RequestParamErr)
+		return
+	}
+	token, err := service.User.Login(args)
+	fmt.Println(token)
 }
