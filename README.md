@@ -10,6 +10,7 @@ swag init # 默认使用swagger作为文档管理工具
 ```
 ### 项目启动方式
 ```shell
+go mod tidy
 SERVER_ENV=dev go run main.go # dev是默认开发环境，请自行修改根目录下dev和pre对应的配置文件
 ```
 
