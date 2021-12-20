@@ -11,7 +11,7 @@ server:
 log:
   debug: true
   fileName: 'start-go-api' # 日志文件名称
-  dirPath: 'storage/logs' # 日志默认存放目录，请修改为绝对路径
+  dirPath: 'storage/logs' # 日志默认存放目录
 mysql:
   host: '127.0.0.1'
   port: '3306'
