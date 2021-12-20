@@ -2,12 +2,15 @@ package main
 
 import (
 	"github.com/voyager-go/start-go-api/bootstrap"
+	"github.com/voyager-go/start-go-api/config"
 	"github.com/voyager-go/start-go-api/router"
 )
 
 func main() {
-	bootstrap.RunService()
-	//result, err := bootstrap.Redis.Ping(context.Background()).Result()
+	// 程序启动时需要加载的服务
+	bootstrap.BootService()
+	// 注册路由
 	r := router.Register()
-	r.Run(":8090")
+	// 程序启动
+	r.Run(":" + config.Conf.Server.Port)
 }
