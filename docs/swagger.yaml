@@ -1,0 +1,136 @@
+definitions:
+  entity.SysUserServiceCreateReq:
+    properties:
+      nickname:
+        type: string
+      password:
+        type: string
+      phone:
+        type: string
+      status:
+        type: integer
+    type: object
+  entity.SysUserServiceTokenReq:
+    properties:
+      password:
+        type: string
+      phone:
+        type: string
+    type: object
+  entity.SysUserServiceUpdateReq:
+    properties:
+      id:
+        type: integer
+      nickname:
+        type: string
+      phone:
+        type: string
+      status:
+        type: integer
+    type: object
+info:
+  contact: {}
+paths:
+  /user:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: 退出会话
+      tags:
+      - 用户操作
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 用户基础信息
+        in: body
+        name: userInfo
+        required: true
+        schema:
+          $ref: '#/definitions/entity.SysUserServiceCreateReq'
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: 创建一条用户记录
+      tags:
+      - 用户操作
+    put:
+      parameters:
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 需要更新的用户信息
+        in: body
+        name: userInfo
+        required: true
+        schema:
+          $ref: '#/definitions/entity.SysUserServiceUpdateReq'
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: 更新用户信息
+      tags:
+      - 用户
+  /user/{id}:
+    get:
+      parameters:
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 用户编号
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: 根据用户编号查找一条用户记录
+      tags:
+      - 用户操作
+  /user/auth:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 手机号和密码
+        in: body
+        name: userInfo
+        required: true
+        schema:
+          $ref: '#/definitions/entity.SysUserServiceTokenReq'
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: 用户授权登录
+      tags:
+      - 用户操作
+swagger: "2.0"
