@@ -78,9 +78,9 @@ func BootMysql() error {
 	return err
 }
 
-// RunService 引导程序初始化，加载服务失败时会引发恐慌
+// BootService 引导程序初始化，加载服务失败时会引发恐慌
 // 日志服务默认加载，其它服务可选
-func RunService(services ...string) {
+func BootService(services ...string) {
 	serviceMap[LogService] = BootLogger
 	if global.Logger != nil {
 		global.Logger.Infof("服务列表已加载完成!")

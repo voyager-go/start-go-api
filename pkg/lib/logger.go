@@ -24,7 +24,7 @@ func NewLogger(logPath, module string) (*Logger, error) {
 
 	logClient := logrus.New()
 	logClient.Out = src
-	logClient.Out = os.Stdout // 是否打印到控制台上
+	// logClient.Out = os.Stdout // 是否打印到控制台上
 	logClient.SetLevel(logrus.DebugLevel)
 
 	logWriter, err := rotatelogs.New(
