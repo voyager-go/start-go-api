@@ -11,6 +11,7 @@ import (
 	"github.com/voyager-go/start-go-api/global"
 	"github.com/voyager-go/start-go-api/pkg/auth"
 	"github.com/voyager-go/start-go-api/pkg/util"
+	"strconv"
 	"time"
 )
 
@@ -78,4 +79,13 @@ func (u SysUserService) Login(r entity.SysUserServiceTokenReq) (string, error) {
 		return "", errors.New("用户信息持久化失败")
 	}
 	return jwtToken, nil
+}
+
+// Logout 退出登录
+func (u SysUserService) Logout(userId int64) error {
+	_, err := global.Redis.Del(context.Background(), config.Conf.Redis.LoginPrefix+strconv.FormatInt(userId, 10)).Result()
+	if err != nil {
+		return errors.New("会话过期，请重新登录")
+	}
+	return nil
 }

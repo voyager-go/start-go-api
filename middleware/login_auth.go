@@ -17,7 +17,7 @@ func NeedLogin(ctx *gin.Context) {
 		return
 	}
 	if _, err := app.ParseUserByToken(token); err != nil {
-		ctx.JSON(http.StatusUnauthorized, response.CodeMap[response.UnAuthed]+"，详情为:"+err.Error())
+		ctx.JSON(http.StatusUnauthorized, response.CodeMap[response.UnAuthed])
 		ctx.Abort()
 		return
 	}

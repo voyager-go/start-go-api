@@ -42,6 +42,7 @@ func Register() *gin.Engine {
 	apiNeedLogin.GET("/user/:id", api.SysUser.Find)
 	apiNeedLogin.PUT("/user", api.SysUser.Update)
 	apiNeedLogin.POST("/user", api.SysUser.Create)
+	apiNeedLogin.DELETE("/user", api.SysUser.Logout)
 
 	return router
 }

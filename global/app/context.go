@@ -6,7 +6,6 @@ import (
 	"errors"
 	"github.com/gin-gonic/gin"
 	"github.com/voyager-go/start-go-api/config"
-	"github.com/voyager-go/start-go-api/dao"
 	"github.com/voyager-go/start-go-api/entity"
 	"github.com/voyager-go/start-go-api/global"
 	"github.com/voyager-go/start-go-api/pkg/auth"
@@ -42,6 +41,10 @@ func ParseUserByToken(token string) (TokenPayload, error) {
 	if user.UserId == 0 {
 		return user, errors.New("非法登录")
 	}
+	_, err = global.Redis.Get(context.Background(), config.Conf.Redis.LoginPrefix+strconv.FormatInt(user.UserId, 10)).Result()
+	if err != nil {
+		return TokenPayload{}, errors.New("会话过期，请重新登录")
+	}
 	return user, nil
 }
 
@@ -58,13 +61,7 @@ func GetLoginUser(ctx *gin.Context) (LoginUser, error) {
 		return LoginUser{}, err
 	}
 	user := entity.SysUser{}
-	if result == "" {
-		// 从数据库中查询
-		user, err = dao.SysUser.FindOneById(Uid, true)
-
-	} else {
-		err = json.Unmarshal([]byte(result), &user)
-	}
+	err = json.Unmarshal([]byte(result), &user)
 	if err != nil {
 		return LoginUser{}, err
 	}
