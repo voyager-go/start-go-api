@@ -7,12 +7,12 @@ type SysUser internal.SysUser
 const SysUserStatusNormal = 1    // 启用
 const SysUserStatusForbidden = 0 // 禁用
 
-// SysUserServiceCreateReq 创新sys_user输入参数
+// SysUserServiceCreateReq 创建sys_user输入参数
 type SysUserServiceCreateReq struct {
-	Nickname string `json:"nickname"`
-	Phone    string `json:"phone"`
-	Password string `json:"password"`
-	Status   int8   `json:"status"`
+	Nickname string `json:"nickname" binding:"required"`
+	Phone    string `json:"phone" binding:"required"`
+	Password string `json:"password" binding:"required"`
+	Status   int8   `json:"status" binding:"required"`
 }
 
 // SysUserServiceUpdateReq 更新sys_user输入参数

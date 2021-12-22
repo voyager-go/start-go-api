@@ -18,6 +18,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjozLCJjcmVh
 ###
 POST {{baseUrl}}/user
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjozLCJjcmVhdGVkX2F0IjoxNjM5NzIyNzg4LCJuaWNrbmFtZSI6IuS7iuWkqeaYr-S4quWlveaXpeWtkCIsInBob25lIjoiMTUxMDUxOTExODMiLCJwYXNzd29yZCI6IiQyYSQxMCRRNTF2SDhtSFNOSFFpbWc5R2VNSDlPLkhDU2x6MzZpSnBlRGZqc3NDek1tcllGZzFjbllDVyIsInN0YXR1cyI6MX0sImV4cCI6MTY0MDE2NTE1NywiaXNzIjoic3RhcnQtZ28tYXBpIn0.9Eg6kmP6uqQ9ObnemWrg-ufxJWf0x7w2Ly--bZ_zQbo
 
-{"nickname":"岁岁平安","password": "123456","phone": "15106191181","status":1}
+{"nickname":"今天是个好日子","password": "123456","phone": "15106191182"}
 ###

@@ -31,6 +31,7 @@ SERVER_ENV=dev go run main.go # dev是默认开发环境，请自行修改根目
   |-lib           # 构造日志服务、数据库服务、Redis服务等
   |-response      # 返回值的格式化处理
   |-util          # 助手函数
+  |-validator     # 自定义验证器
 |-router          # 路由注册
 |-service         # 接口的具体业务处理
 |-storage         # 默认存放一些资源文件，如日志文件、上传文件等
@@ -49,6 +50,7 @@ SERVER_ENV=dev go run main.go # dev是默认开发环境，请自行修改根目
 - jwt-go 项目地址: https://github.com/dgrijalva/jwt-go
 - cors 项目地址: https://github.com/gin-contrib/cors
 - gconv 类型转换库 项目地址: https://godoc.org/github.com/gogf/gf/util/gconv
+- validator.v10 项目地址: https://github.com/go-playground/validator
 
 ### 项目在编写与设计时参考了Github上一些优秀的项目
 - https://github.com/gogf/gf
