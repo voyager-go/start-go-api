@@ -7,6 +7,7 @@ import (
 	"github.com/voyager-go/start-go-api/entity"
 	"github.com/voyager-go/start-go-api/global/app"
 	"github.com/voyager-go/start-go-api/pkg/response"
+	"github.com/voyager-go/start-go-api/pkg/validator"
 	"github.com/voyager-go/start-go-api/service"
 )
 
@@ -51,7 +52,8 @@ func (u SysUserApi) Create(ctx *gin.Context) {
 	var args entity.SysUserServiceCreateReq
 	err := ctx.ShouldBindJSON(&args)
 	if err != nil {
-		response.FailWithDetail(ctx, response.RequestParamErr)
+		errs := validator.Translate(err) // 验证器返回错误信息后，翻译成中文
+		response.FailWithMessage(ctx, errs[0])
 		return
 	}
 	err = service.User.CreateUser(args)
