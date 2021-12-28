@@ -1,19 +1,66 @@
 package main
 
 import (
+	"fmt"
+	"github.com/gogf/gf/os/gtime"
+	"github.com/urfave/cli/v2"
 	"github.com/voyager-go/start-go-api/bootstrap"
 	"github.com/voyager-go/start-go-api/config"
 	"github.com/voyager-go/start-go-api/pkg/validator"
 	"github.com/voyager-go/start-go-api/router"
+	"os"
+	"runtime"
 )
 
+var (
+	// AppName 当前应用的名称
+	AppName  = "start go api"
+	AppUsage = "使用gin框架作为基础开发库，封装一套适用于面向api编程的快速开发结构"
+	// AppPort 程序启动的端口
+	AppPort string
+	// BuildVersion 编译的app版本
+	BuildVersion string
+	// BuildAt 编译时间
+	BuildAt string
+)
+
+// stack 程序运行前的处理
+func stack() *cli.App {
+	buildInfo := fmt.Sprintf("%s-%s-%s-%s-%s", runtime.GOOS, runtime.GOARCH, BuildVersion, BuildAt, gtime.Now())
+	return &cli.App{
+		Name:     AppName,
+		Version:  buildInfo,
+		Usage:    AppUsage,
+		Commands: nil,
+		Flags: []cli.Flag{
+			&cli.StringFlag{
+				Name:        "env",
+				Value:       "dev",
+				Usage:       "请选择配置文件 [dev | pre]",
+				Destination: &config.ConfEnv,
+			},
+			&cli.StringFlag{
+				Name:        "port",
+				Value:       "8090",
+				Usage:       "请选择启动端口",
+				Destination: &AppPort,
+			},
+		},
+		Action: func(context *cli.Context) error {
+			// 初始化配置文件信息
+			config.InitConfig()
+			// 程序启动时需要加载的服务
+			bootstrap.BootService()
+			// 引入验证翻译器
+			validator.NewValidate()
+			// 注册路由 启动程序
+			return router.Register().Run(":" + AppPort)
+		},
+	}
+}
+
 func main() {
-	// 程序启动时需要加载的服务
-	bootstrap.BootService()
-	// 引入验证翻译器
-	validator.NewValidate()
-	// 注册路由
-	r := router.Register()
-	// 程序启动
-	r.Run(":" + config.Conf.Server.Port)
+	if err := stack().Run(os.Args); err != nil {
+		panic(err)
+	}
 }
