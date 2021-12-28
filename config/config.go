@@ -1,14 +1,16 @@
 package config
 
 import (
-	"flag"
 	"fmt"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
 )
 
-var Conf *Yaml
+var (
+	Conf    *Yaml
+	ConfEnv string
+)
 
 type Yaml struct {
 	Server `yaml:"server"`
@@ -18,7 +20,6 @@ type Yaml struct {
 }
 
 type Server struct {
-	Port            string `yaml:"port"`
 	Mode            string `yaml:"mode"`
 	DefaultPageSize uint64 `yaml:"defaultPageSize"`
 	MaxPageSize     uint64 `yaml:"maxPageSize"`
@@ -48,12 +49,10 @@ type Redis struct {
 	LoginPrefix string `yaml:"loginPrefix"`
 }
 
-// init 初始化配置信息
-func init() {
-	var defaultConfigFile = fmt.Sprintf("config.%s.yaml", os.Getenv("SERVER_ENV"))
-	configFile := flag.String("c", defaultConfigFile, "help config path")
-	flag.Parse()
-	yamlConf, err := ioutil.ReadFile(*configFile)
+// InitConfig 初始化配置信息
+func InitConfig() {
+	var configFile = fmt.Sprintf("config.%s.yaml", ConfEnv)
+	yamlConf, err := ioutil.ReadFile(configFile)
 	if err != nil {
 		panic(fmt.Errorf("读取配置文件失败: %s", err))
 	}
