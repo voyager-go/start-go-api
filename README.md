@@ -11,7 +11,15 @@ swag init # 默认使用swagger作为文档管理工具
 ### 项目启动方式
 ```shell
 go mod tidy
-SERVER_ENV=dev go run main.go # dev是默认开发环境，请自行修改根目录下dev和pre对应的配置文件
+go run main.go # 默认使用8090作为启动端口，默认使用config.dev.yaml作为配置文件
+```
+
+### 项目命令介绍
+```shell
+go run main.go -h          # 可查询全部命令
+go run main.go -v          # 可查询当前编译版本
+go run main.go --env dev   # 可指定配置文件(例如: dev或者pre)
+go run main.go --port 9999 # 可指定程序启动端口
 ```
 
 ### 目录结构介绍
@@ -51,7 +59,7 @@ SERVER_ENV=dev go run main.go # dev是默认开发环境，请自行修改根目
 - cors 项目地址: https://github.com/gin-contrib/cors
 - gconv 类型转换库 项目地址: https://godoc.org/github.com/gogf/gf/util/gconv
 - validator.v10 项目地址: https://github.com/go-playground/validator
-
+- cli 构建命令行应用程序 项目地址: https://github.com/urfave/cli
 ### 项目在编写与设计时参考了Github上一些优秀的项目
 - https://github.com/gogf/gf
 - https://github.com/gogf/gf-demos
