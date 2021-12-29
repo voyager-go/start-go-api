@@ -22,6 +22,13 @@ go run main.go --env dev   # 可指定配置文件(例如: dev或者pre)
 go run main.go --port 9999 # 可指定程序启动端口
 ```
 
+### 异步任务介绍
+> 项目中集成了异步任务框架machinery，需要在`main.go`中手动开启任务调度，然后在`schedule`中编写相关代码。
+```shell
+go run main.go server # 启动以及注册任务，并将异步任务推送至redis队列中
+go run main.go worker # 启动worker对任务进行消费
+```
+
 ### 目录结构介绍
 ```shell
 |-api             # 接口存放目录
