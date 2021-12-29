@@ -22,3 +22,4 @@ redis:
   password: ''
   dbNum: 0
   loginPrefix: 'start_go_api_login_' # 登录用户存入redis键名的前缀
+task:

@@ -2,12 +2,15 @@ package main
 
 import (
 	"fmt"
+	"github.com/RichardKnop/machinery/v1"
 	"github.com/gogf/gf/os/gtime"
 	"github.com/urfave/cli/v2"
 	"github.com/voyager-go/start-go-api/bootstrap"
 	"github.com/voyager-go/start-go-api/config"
 	"github.com/voyager-go/start-go-api/pkg/validator"
 	"github.com/voyager-go/start-go-api/router"
+	task_server "github.com/voyager-go/start-go-api/schedule/server"
+	task_worker "github.com/voyager-go/start-go-api/schedule/worker"
 	"os"
 	"runtime"
 )
@@ -22,16 +25,28 @@ var (
 	BuildVersion string
 	// BuildAt 编译时间
 	BuildAt string
+	// openSchedule 是否开启任务调度服务
+	openSchedule = true
+	// taskServer 任务服务
+	taskServer    *machinery.Server
+	taskServerArg = "server"
+	taskWorkerArg = "worker"
 )
 
 // stack 程序运行前的处理
 func stack() *cli.App {
 	buildInfo := fmt.Sprintf("%s-%s-%s-%s-%s", runtime.GOOS, runtime.GOARCH, BuildVersion, BuildAt, gtime.Now())
+	if openSchedule {
+		var err error
+		taskServer, err = task_server.InitMachineryServer()
+		if err != nil {
+			panic(err)
+		}
+	}
 	return &cli.App{
-		Name:     AppName,
-		Version:  buildInfo,
-		Usage:    AppUsage,
-		Commands: nil,
+		Name:    AppName,
+		Version: buildInfo,
+		Usage:   AppUsage,
 		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name:        "env",
@@ -55,6 +70,28 @@ func stack() *cli.App {
 			validator.NewValidate()
 			// 注册路由 启动程序
 			return router.Register().Run(":" + AppPort)
+		},
+		Commands: []*cli.Command{
+			{
+				Name:  taskServerArg,
+				Usage: "Launch application server",
+				Action: func(context *cli.Context) error {
+					if openSchedule {
+						task_server.StartServer(taskServer)
+					}
+					return nil
+				},
+			},
+			{
+				Name:  taskWorkerArg,
+				Usage: "Launch application worker",
+				Action: func(context *cli.Context) error {
+					if openSchedule {
+						return task_worker.StartWorker(taskServer)
+					}
+					return nil
+				},
+			},
 		},
 	}
 }
