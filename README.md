@@ -60,6 +60,7 @@ go run main.go --port 9999 # 可指定程序启动端口
 - gconv 类型转换库 项目地址: https://godoc.org/github.com/gogf/gf/util/gconv
 - validator.v10 项目地址: https://github.com/go-playground/validator
 - cli 构建命令行应用程序 项目地址: https://github.com/urfave/cli
+- machinary 异步任务框架 项目地址: https://github.com/RichardKnop/machinery
 ### 项目在编写与设计时参考了Github上一些优秀的项目
 - https://github.com/gogf/gf
 - https://github.com/gogf/gf-demos
