@@ -1,4 +1,4 @@
-package task_config
+package schedule_config
 
 import (
 	"cloud.google.com/go/pubsub"

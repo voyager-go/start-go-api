@@ -1,4 +1,4 @@
-package task_worker
+package schedule_worker
 
 import "github.com/RichardKnop/machinery/v1"
 

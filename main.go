@@ -9,8 +9,8 @@ import (
 	"github.com/voyager-go/start-go-api/config"
 	"github.com/voyager-go/start-go-api/pkg/validator"
 	"github.com/voyager-go/start-go-api/router"
-	task_server "github.com/voyager-go/start-go-api/schedule/server"
-	task_worker "github.com/voyager-go/start-go-api/schedule/worker"
+	schedule_server "github.com/voyager-go/start-go-api/schedule/server"
+	schedule_worker "github.com/voyager-go/start-go-api/schedule/worker"
 	"os"
 	"runtime"
 )
@@ -38,7 +38,7 @@ func stack() *cli.App {
 	buildInfo := fmt.Sprintf("%s-%s-%s-%s-%s", runtime.GOOS, runtime.GOARCH, BuildVersion, BuildAt, gtime.Now())
 	if openSchedule {
 		var err error
-		taskServer, err = task_server.InitMachineryServer()
+		taskServer, err = schedule_server.InitMachineryServer()
 		if err != nil {
 			panic(err)
 		}
@@ -77,7 +77,7 @@ func stack() *cli.App {
 				Usage: "Launch application server",
 				Action: func(context *cli.Context) error {
 					if openSchedule {
-						task_server.StartServer(taskServer)
+						schedule_server.StartServer(taskServer)
 					}
 					return nil
 				},
@@ -87,7 +87,7 @@ func stack() *cli.App {
 				Usage: "Launch application worker",
 				Action: func(context *cli.Context) error {
 					if openSchedule {
-						return task_worker.StartWorker(taskServer)
+						return schedule_worker.StartWorker(taskServer)
 					}
 					return nil
 				},

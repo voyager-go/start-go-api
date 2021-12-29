@@ -1,4 +1,4 @@
-package task_server
+package schedule_server
 
 import (
 	"fmt"
@@ -6,8 +6,8 @@ import (
 	"github.com/RichardKnop/machinery/v1/config"
 	"github.com/RichardKnop/machinery/v1/log"
 	"github.com/RichardKnop/machinery/v1/tasks"
-	task_lists "github.com/voyager-go/start-go-api/schedule/task"
-	task_util "github.com/voyager-go/start-go-api/schedule/util"
+	schedule_task "github.com/voyager-go/start-go-api/schedule/task"
+	schedule_util "github.com/voyager-go/start-go-api/schedule/util"
 	"time"
 )
 
@@ -15,11 +15,11 @@ import (
 func StartServer(taskServer *machinery.Server) {
 	var (
 		sendEmail = tasks.Signature{
-			UUID: task_util.JoinUUIDPrefix("send_email"),
+			UUID: schedule_util.JoinUUIDPrefix("send_email"),
 			Name: "send_email",
 		}
 		addInt = tasks.Signature{
-			UUID: task_util.JoinUUIDPrefix("add_int"),
+			UUID: schedule_util.JoinUUIDPrefix("add_int"),
 			Name: "add",
 			Args: []tasks.Arg{
 				{
@@ -33,7 +33,7 @@ func StartServer(taskServer *machinery.Server) {
 			},
 		}
 		concatStr = tasks.Signature{
-			UUID: task_util.JoinUUIDPrefix("concat"),
+			UUID: schedule_util.JoinUUIDPrefix("concat"),
 			Name: "concat",
 			Args: []tasks.Arg{
 				{
@@ -80,6 +80,6 @@ func InitMachineryServer() (*machinery.Server, error) {
 	if err != nil {
 		return nil, err
 	}
-	err = server.RegisterTasks(task_lists.GetTaskLists())
+	err = server.RegisterTasks(schedule_task.GetTaskLists())
 	return server, err
 }

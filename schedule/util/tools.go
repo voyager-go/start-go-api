@@ -1,4 +1,4 @@
-package task_util
+package schedule_util
 
 import (
 	"github.com/google/uuid"
