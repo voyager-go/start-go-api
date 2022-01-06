@@ -6,10 +6,10 @@ import (
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"github.com/voyager-go/start-go-api/api"
 	"github.com/voyager-go/start-go-api/config"
 	"github.com/voyager-go/start-go-api/docs"
 	"github.com/voyager-go/start-go-api/middleware"
+	"github.com/voyager-go/start-go-api/modules/system/api"
 	"net/http"
 )
 
@@ -38,11 +38,11 @@ func Register() *gin.Engine {
 		apiGroup     = router.Group("/api", publicMiddleware...)
 		apiNeedLogin = router.Group("/api", append(publicMiddleware, middleware.NeedLogin)...)
 	)
-	apiGroup.POST("/user/auth", api.SysUser.Login)
-	apiNeedLogin.GET("/user/:id", api.SysUser.Find)
-	apiNeedLogin.PUT("/user", api.SysUser.Update)
-	apiNeedLogin.POST("/user", api.SysUser.Create)
-	apiNeedLogin.DELETE("/user", api.SysUser.Logout)
+	apiGroup.POST("/user/login", api.User.Login)
+	apiNeedLogin.POST("/user/logout", api.User.Logout)
+	apiNeedLogin.GET("/user/:id", api.User.Show)
+	apiNeedLogin.PUT("/user/:id", api.User.Update)
+	apiNeedLogin.POST("/user", api.User.Create)
 
 	return router
 }

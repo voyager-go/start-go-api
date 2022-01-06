@@ -21,8 +21,8 @@ type Yaml struct {
 
 type Server struct {
 	Mode            string `yaml:"mode"`
-	DefaultPageSize uint64 `yaml:"defaultPageSize"`
-	MaxPageSize     uint64 `yaml:"maxPageSize"`
+	DefaultPageSize int    `yaml:"defaultPageSize"`
+	MaxPageSize     int    `yaml:"maxPageSize"`
 	TokenExpire     int64  `yaml:"tokenExpire"`
 	TokenKey        string `yaml:"tokenKey"`
 	TokenIssuer     string `yaml:"tokenIssuer"`
