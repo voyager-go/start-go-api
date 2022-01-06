@@ -6,14 +6,14 @@ import (
 	"errors"
 	"github.com/gin-gonic/gin"
 	"github.com/voyager-go/start-go-api/config"
-	"github.com/voyager-go/start-go-api/entity"
+	"github.com/voyager-go/start-go-api/entities"
 	"github.com/voyager-go/start-go-api/global"
 	"github.com/voyager-go/start-go-api/pkg/auth"
 	"strconv"
 )
 
 type LoginUser struct {
-	entity.SysUser
+	entities.User
 }
 
 type TokenPayload struct {
@@ -60,7 +60,7 @@ func GetLoginUser(ctx *gin.Context) (LoginUser, error) {
 	if err != nil {
 		return LoginUser{}, err
 	}
-	user := entity.SysUser{}
+	user := entities.User{}
 	err = json.Unmarshal([]byte(result), &user)
 	if err != nil {
 		return LoginUser{}, err
