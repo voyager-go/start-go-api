@@ -22,7 +22,7 @@ var User = userApi{}
 // @Tags 用户操作
 // @Param userInfo body entity.SysUserServiceTokenReq true "手机号和密码"
 // @Success 200 {string} response.OkWithData
-// @Router /user/auth [post]
+// @Router /user/login [post]
 func (u userApi) Login(ctx *gin.Context) {
 	var args entities.UserServiceTokenReq
 	err := ctx.ShouldBindJSON(&args)
@@ -39,15 +39,15 @@ func (u userApi) Login(ctx *gin.Context) {
 }
 
 // Show
-// @Summary 创建一条用户记录
+// @Summary 查看用户记录
 // @Schemes
 // @Description
 // @Tags 用户操作
 // @Accept application/json
 // @Param Authorization header string true "Authorization"
-// @Param id params int true "用户编号"
+// @Param id path int true "用户编号"
 // @Success 200 {string} response.Ok
-// @Router /user/[id] [get]
+// @Router /user/{id} [get]
 func (u userApi) Show(ctx *gin.Context) {
 	userId, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
 	if err != nil {
@@ -92,11 +92,12 @@ func (u userApi) Create(ctx *gin.Context) {
 // @Summary 更新用户信息
 // @Schemes
 // @Description
-// @Tags 用户
+// @Tags 用户操作
 // @Param Authorization header string true "Authorization"
+// @Param id path int true "用户编号"
 // @Param userInfo body entities.UserServiceUpdateReq true "需要更新的用户信息"
 // @Success 200 {string} response.Ok
-// @Router /user [put]
+// @Router /user/{id} [put]
 func (u userApi) Update(ctx *gin.Context) {
 	var args entities.UserServiceUpdateReq
 	err := ctx.ShouldBindJSON(&args)
@@ -125,7 +126,7 @@ func (u userApi) Update(ctx *gin.Context) {
 // @Accept application/json
 // @Param Authorization   header string true "Authorization"
 // @Success 200 {string} response.Ok
-// @Router /auth/logout [post]
+// @Router /user/logout [post]
 func (u userApi) Logout(ctx *gin.Context) {
 	user, err := app.GetLoginUser(ctx)
 	if err != nil {

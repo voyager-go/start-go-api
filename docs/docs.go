@@ -24,38 +24,6 @@ var doc = `{
     "basePath": "{{.BasePath}}",
     "paths": {
         "/user": {
-            "put": {
-                "tags": [
-                    "用户"
-                ],
-                "summary": "更新用户信息",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Authorization",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "description": "需要更新的用户信息",
-                        "name": "userInfo",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/entity.SysUserServiceUpdateReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            },
             "post": {
                 "consumes": [
                     "application/json"
@@ -78,34 +46,8 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entity.SysUserServiceCreateReq"
+                            "$ref": "#/definitions/entities.UserServiceCreateReq"
                         }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "consumes": [
-                    "application/json"
-                ],
-                "tags": [
-                    "用户操作"
-                ],
-                "summary": "退出会话",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Authorization",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
                     }
                 ],
                 "responses": {
@@ -118,7 +60,7 @@ var doc = `{
                 }
             }
         },
-        "/user/auth": {
+        "/user/login": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -148,12 +90,43 @@ var doc = `{
                 }
             }
         },
-        "/user/{id}": {
-            "get": {
+        "/user/logout": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
                 "tags": [
                     "用户操作"
                 ],
-                "summary": "根据用户编号查找一条用户记录",
+                "summary": "退出会话",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{id}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户操作"
+                ],
+                "summary": "查看用户记录",
                 "parameters": [
                     {
                         "type": "string",
@@ -178,17 +151,79 @@ var doc = `{
                         }
                     }
                 }
+            },
+            "put": {
+                "tags": [
+                    "用户操作"
+                ],
+                "summary": "更新用户信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "用户编号",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "需要更新的用户信息",
+                        "name": "userInfo",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entities.UserServiceUpdateReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
             }
         }
     },
     "definitions": {
-        "entity.SysUserServiceCreateReq": {
+        "entities.UserServiceCreateReq": {
             "type": "object",
+            "required": [
+                "nickname",
+                "password",
+                "phone",
+                "status"
+            ],
             "properties": {
                 "nickname": {
                     "type": "string"
                 },
                 "password": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                }
+            }
+        },
+        "entities.UserServiceUpdateReq": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "nickname": {
                     "type": "string"
                 },
                 "phone": {
@@ -207,23 +242,6 @@ var doc = `{
                 },
                 "phone": {
                     "type": "string"
-                }
-            }
-        },
-        "entity.SysUserServiceUpdateReq": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer"
-                },
-                "nickname": {
-                    "type": "string"
-                },
-                "phone": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "integer"
                 }
             }
         }
