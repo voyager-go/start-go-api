@@ -15,6 +15,13 @@ definitions:
     - phone
     - status
     type: object
+  entities.UserServiceTokenReq:
+    properties:
+      password:
+        type: string
+      phone:
+        type: string
+    type: object
   entities.UserServiceUpdateReq:
     properties:
       id:
@@ -25,13 +32,6 @@ definitions:
         type: string
       status:
         type: integer
-    type: object
-  entity.SysUserServiceTokenReq:
-    properties:
-      password:
-        type: string
-      phone:
-        type: string
     type: object
 info:
   contact: {}
@@ -119,7 +119,7 @@ paths:
         name: userInfo
         required: true
         schema:
-          $ref: '#/definitions/entity.SysUserServiceTokenReq'
+          $ref: '#/definitions/entities.UserServiceTokenReq'
       responses:
         "200":
           description: OK

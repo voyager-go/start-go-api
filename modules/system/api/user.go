@@ -20,7 +20,7 @@ var User = userApi{}
 // @Description
 // @Accept application/json
 // @Tags 用户操作
-// @Param userInfo body entity.SysUserServiceTokenReq true "手机号和密码"
+// @Param userInfo body entities.UserServiceTokenReq true "手机号和密码"
 // @Success 200 {string} response.OkWithData
 // @Router /user/login [post]
 func (u userApi) Login(ctx *gin.Context) {

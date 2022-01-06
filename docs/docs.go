@@ -76,7 +76,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entity.SysUserServiceTokenReq"
+                            "$ref": "#/definitions/entities.UserServiceTokenReq"
                         }
                     }
                 ],
@@ -217,6 +217,17 @@ var doc = `{
                 }
             }
         },
+        "entities.UserServiceTokenReq": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                }
+            }
+        },
         "entities.UserServiceUpdateReq": {
             "type": "object",
             "properties": {
@@ -231,17 +242,6 @@ var doc = `{
                 },
                 "status": {
                     "type": "integer"
-                }
-            }
-        },
-        "entity.SysUserServiceTokenReq": {
-            "type": "object",
-            "properties": {
-                "password": {
-                    "type": "string"
-                },
-                "phone": {
-                    "type": "string"
                 }
             }
         }
