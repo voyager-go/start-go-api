@@ -1,6 +1,8 @@
 package internal
 
-import "github.com/voyager-go/start-go-api/global"
+import (
+	"github.com/voyager-go/start-go-api/global"
+)
 
 // User 用户信息表
 type User struct {
@@ -9,6 +11,6 @@ type User struct {
 	Phone         string `gorm:"unique,length:11,column:phone" json:"phone"`
 	Password      string `gorm:"length:80,column:password" json:"password"`
 	Status        int8   `gorm:"index:,column:status" json:"status"`
-	FormatCreated string `json:"format_created"`
-	FormatUpdated string `json:"format_updated"`
+	FormatCreated string `gorm:"-" json:"format_created"`
+	FormatUpdated string `gorm:"-" json:"format_updated"`
 }
