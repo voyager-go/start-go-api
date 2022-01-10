@@ -23,6 +23,69 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/sys_menu": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "菜单操作"
+                ],
+                "summary": "查询菜单列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "菜单操作"
+                ],
+                "summary": "创建一条用户记录",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "菜单基础信息",
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entities.SysMenuServiceReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/user": {
             "post": {
                 "consumes": [
@@ -194,6 +257,40 @@ var doc = `{
         }
     },
     "definitions": {
+        "entities.SysMenuServiceReq": {
+            "type": "object",
+            "required": [
+                "is_use",
+                "level",
+                "name",
+                "pid",
+                "sort",
+                "unique_key"
+            ],
+            "properties": {
+                "icon": {
+                    "type": "string"
+                },
+                "is_use": {
+                    "type": "integer"
+                },
+                "level": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "pid": {
+                    "type": "integer"
+                },
+                "sort": {
+                    "type": "integer"
+                },
+                "unique_key": {
+                    "type": "string"
+                }
+            }
+        },
         "entities.UserServiceCreateReq": {
             "type": "object",
             "required": [

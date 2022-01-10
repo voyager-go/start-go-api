@@ -44,5 +44,9 @@ func Register() *gin.Engine {
 	apiNeedLogin.PUT("/user/:id", api.User.Update)
 	apiNeedLogin.POST("/user", api.User.Create)
 
+	// 菜单组
+	apiNeedLogin.POST("/sys_menu", api.Menu.Create)
+	apiNeedLogin.GET("/sys_menu", api.Menu.List)
+
 	return router
 }

@@ -1,4 +1,28 @@
 definitions:
+  entities.SysMenuServiceReq:
+    properties:
+      icon:
+        type: string
+      is_use:
+        type: integer
+      level:
+        type: integer
+      name:
+        type: string
+      pid:
+        type: integer
+      sort:
+        type: integer
+      unique_key:
+        type: string
+    required:
+    - is_use
+    - level
+    - name
+    - pid
+    - sort
+    - unique_key
+    type: object
   entities.UserServiceCreateReq:
     properties:
       nickname:
@@ -36,6 +60,47 @@ definitions:
 info:
   contact: {}
 paths:
+  /sys_menu:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: 查询菜单列表
+      tags:
+      - 菜单操作
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 菜单基础信息
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/entities.SysMenuServiceReq'
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: 创建一条用户记录
+      tags:
+      - 菜单操作
   /user:
     post:
       consumes:
