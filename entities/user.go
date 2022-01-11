@@ -16,15 +16,15 @@ type UserServiceCreateReq struct {
 	Nickname string `json:"nickname" binding:"required"`
 	Phone    string `json:"phone"    binding:"required"`
 	Password string `json:"password" binding:"required"`
-	Status   int8   `json:"status"   binding:"required"`
+	Status   *int8  `json:"status"   binding:"required"`
 }
 
 // UserServiceUpdateReq 更新user输入参数
 type UserServiceUpdateReq struct {
-	ID       int64  `json:"id"`
+	ID       uint64 `json:"id"`
 	Nickname string `json:"nickname"`
 	Phone    string `json:"phone"`
-	Status   int8   `json:"status"`
+	Status   *int8  `json:"status"`
 }
 
 // UserServiceTokenReq 请求发放令牌

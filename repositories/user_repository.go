@@ -43,7 +43,7 @@ func (r *UserRepository) Update(user *entities.User) RepositoryResult {
 }
 
 // FindOneById 通过主键ID查询一条记录
-func (r *UserRepository) FindOneById(id int64) RepositoryResult {
+func (r *UserRepository) FindOneById(id uint64) RepositoryResult {
 	var user entities.User
 	err := r.db.Where(&entities.User{Model: global.Model{ID: id}}).Take(&user).Error
 	if err != nil {
@@ -63,7 +63,7 @@ func (r *UserRepository) FindAll() RepositoryResult {
 }
 
 // DeleteOneById 根据主键删除一条记录
-func (r *UserRepository) DeleteOneById(id int64) RepositoryResult {
+func (r *UserRepository) DeleteOneById(id uint64) RepositoryResult {
 	err := r.db.Delete(&entities.User{Model: global.Model{ID: id}}).Error
 	if err != nil {
 		return RepositoryResult{Error: err}

@@ -3,15 +3,15 @@ package global
 import (
 	"github.com/go-redis/redis/v8"
 	"github.com/voyager-go/start-go-api/pkg/lib"
+	"github.com/voyager-go/start-go-api/pkg/util"
 	"gorm.io/gorm"
-	"time"
 )
 
 // Model 公用字段
 type Model struct {
-	ID        int64     `gorm:"primary_key column:id" json:"id"`
-	CreatedAt time.Time `json:"-"`
-	UpdatedAt time.Time `json:"-"`
+	ID        uint64          `gorm:"primary_key column:id" json:"id"`
+	CreatedAt util.FormatTime `json:"created_at"`
+	UpdatedAt util.FormatTime `json:"updated_at"`
 }
 
 // Search 公用查询结构

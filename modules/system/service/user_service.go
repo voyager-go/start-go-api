@@ -55,16 +55,13 @@ func (s *userService) Update(req entities.UserServiceUpdateReq) error {
 }
 
 // FindOne 根据用户ID查找用户信息
-func (s *userService) FindOne(ID int64) (*entities.User, error) {
+func (s *userService) FindOne(ID uint64) (*entities.User, error) {
 	userRepository := repositories.NewUserRepository()
 	datum := userRepository.FindOneById(ID)
 	user, ok := datum.Result.(*entities.User)
 	if datum.Error != nil || !ok {
 		return nil, errors.New("该用户不存在")
 	}
-	layout := "2006-01-02 15:04:05"
-	user.FormatCreated = user.CreatedAt.Format(layout)
-	user.FormatUpdated = user.UpdatedAt.Format(layout)
 	return user, nil
 }
 
