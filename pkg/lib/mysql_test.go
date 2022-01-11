@@ -2,7 +2,7 @@ package lib
 
 import (
 	"github.com/stretchr/testify/assert"
-	"github.com/voyager-go/start-go-api/entity"
+	"github.com/voyager-go/start-go-api/entities"
 	"golang.org/x/crypto/bcrypt"
 	"testing"
 )
@@ -33,10 +33,9 @@ func TestNewMysql(t *testing.T) {
 	assert.Nil(t, err)
 	passwd, err := bcrypt.GenerateFromPassword([]byte("123456"), bcrypt.DefaultCost)
 	assert.Nil(t, err)
-	user := entity.SysUser{
+	user := entities.User{
 		Nickname: "张三",
 		Phone:    "15106191191",
-		Status:   0,
 		Password: string(passwd),
 	}
 	err = db.Table("sys_user").Create(&user).Error

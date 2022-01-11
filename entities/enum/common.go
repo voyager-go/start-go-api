@@ -13,8 +13,8 @@ const (
 )
 
 const (
-	IsUseNormal        = iota // 禁用
-	IsUseTrueForbidden        // 启用
+	IsUseForbidden  = iota // 禁用
+	IsUseTrueNormal        // 启用
 )
 
 func (m MethodType) String() string {
@@ -34,9 +34,9 @@ func (m MethodType) String() string {
 
 func (t IsUseType) String() string {
 	switch t {
-	case IsUseTrueForbidden:
+	case IsUseForbidden:
 		return "禁用"
-	case IsUseNormal:
+	case IsUseTrueNormal:
 		return "启用"
 	default:
 		return "UnKnown"

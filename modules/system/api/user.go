@@ -54,7 +54,7 @@ func (u userApi) Show(ctx *gin.Context) {
 		response.FailWithDetail(ctx, response.RequestParamErr)
 		return
 	}
-	user, err := service.User.FindOne(userId)
+	user, err := service.User.FindOne(uint64(userId))
 	if err != nil {
 		response.FailWithMessage(ctx, err.Error())
 		return
@@ -105,11 +105,12 @@ func (u userApi) Update(ctx *gin.Context) {
 		response.FailWithDetail(ctx, response.RequestParamErr)
 		return
 	}
-	args.ID, err = strconv.ParseInt(ctx.Param("id"), 10, 64)
-	if args.ID == 0 || err != nil {
+	id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
+	if id == 0 || err != nil {
 		response.FailWithDetail(ctx, response.RequestParamErr)
 		return
 	}
+	args.ID = uint64(id)
 	err = service.User.Update(args)
 	if err != nil {
 		response.FailWithMessage(ctx, err.Error())
@@ -133,7 +134,7 @@ func (u userApi) Logout(ctx *gin.Context) {
 		response.FailWithDetail(ctx, response.AuthExpired)
 		return
 	}
-	err = service.User.Logout(user.ID)
+	err = service.User.Logout(int64(user.ID))
 	if err != nil {
 		response.FailWithMessage(ctx, err.Error())
 		return
