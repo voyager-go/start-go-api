@@ -1,0 +1,14 @@
+{"level":"info","msg":"args: {用户管理 0 0 0 0  user-manager}","time":"2022-01-10 18:38:17"}
+{"level":"info","msg":"args: {用户管理 0 0 0 0  user-manager}","time":"2022-01-10 18:39:37"}
+{"level":"info","msg":"args: {用户管理 0 0 0 0  user-manager}","time":"2022-01-10 18:40:52"}
+{"level":"info","msg":"args: {用户管理 0xc0005a5850 0xc0005a5838 0 0  user-manager}","time":"2022-01-10 18:43:32"}
+{"level":"info","msg":"args: {用户管理 0xc00017ddd0 0xc00017ddc0 0 0  user-manager}","time":"2022-01-10 18:44:28"}
+{"level":"info","msg":"args: {用户管理 0xc0003dc030 0xc0003dc020 1 0  user-manager}","time":"2022-01-10 18:45:40"}
+{"level":"info","msg":"args: {用户管理 0xc0006179d0 0xc0006179c0 1 1  user-manager}","time":"2022-01-10 18:45:52"}
+{"level":"info","msg":"args: {用户管理 0xc0006eed20 0xc0006eed10 1 2  user-manager}","time":"2022-01-10 18:46:04"}
+{"level":"info","msg":"args: {用户管理 0xc0005b55a0 0xc0005b5588 1 2  user-manager}","time":"2022-01-10 18:46:41"}
+{"level":"info","msg":"args: {用户管理 0xc0001975a0 0xc000197588 1 2  user-manager}","time":"2022-01-10 18:47:48"}
+{"level":"info","msg":"find list: %!(EXTRA []entities.SysMenu=[])","time":"2022-01-10 19:07:20"}
+{"level":"info","msg":"find list: %!(EXTRA []entities.SysMenu=[])","time":"2022-01-10 19:09:47"}
+{"level":"info","msg":"find list: %!(EXTRA []entities.SysMenu=[])","time":"2022-01-10 19:11:21"}
+{"level":"info","msg":"find list: %!(EXTRA []entities.SysMenu=[{{{1 2022-01-10 19:01:15 +0800 CST 2022-01-10 19:01:15 +0800 CST} 用户管理 0 1 1 2  user-manager} []} {{{5 2022-01-10 19:03:35 +0800 CST 2022-01-10 19:03:35 +0800 CST} 文章管理 0 1 1 1  ppost-manager} []}])","time":"2022-01-10 19:12:25"}

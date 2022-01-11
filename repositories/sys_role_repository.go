@@ -34,7 +34,7 @@ func (r *SysRoleRepository) Update(role *entities.SysRole) RepositoryResult {
 }
 
 // DeleteOneById 根据主键删除一条记录
-func (r *SysRoleRepository) DeleteOneById(id int64) RepositoryResult {
+func (r *SysRoleRepository) DeleteOneById(id uint64) RepositoryResult {
 	err := r.db.Delete(&entities.SysRole{Model: global.Model{ID: id}}).Error
 	if err != nil {
 		return RepositoryResult{Error: err}
