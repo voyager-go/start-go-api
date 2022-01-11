@@ -9,6 +9,10 @@ type SysMenu struct {
 	Children []SysBaseMenu `gorm:"-" json:"children"`
 }
 
+func (SysBaseMenu) TableName() string {
+	return "sys_menu"
+}
+
 const (
 	SysMenuLevelFirst = 1 // 一级菜单
 
@@ -18,11 +22,6 @@ const (
 
 	SysMenuIsUseTrue = 1 // 启用
 )
-
-// TableName 重新指定 SysBaseMenu 的表名称
-func (m *SysBaseMenu) TableName() string {
-	return "sys_menu"
-}
 
 // SysMenuServiceReq 创建菜单输入参数
 type SysMenuServiceReq struct {
