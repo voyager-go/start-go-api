@@ -8,9 +8,6 @@ import (
 
 type User internal.User
 
-const UserStatusNormal = 1    // 启用
-const UserStatusForbidden = 0 // 禁用
-
 // UserServiceCreateReq 创建user输入参数
 type UserServiceCreateReq struct {
 	Nickname string `json:"nickname" binding:"required"`
