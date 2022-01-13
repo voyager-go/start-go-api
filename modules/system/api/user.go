@@ -80,7 +80,7 @@ func (u userApi) Create(ctx *gin.Context) {
 		response.FailWithMessage(ctx, errs[0])
 		return
 	}
-	err = service.User.Create(args)
+	err = service.User.Create(&args)
 	if err != nil {
 		response.FailWithMessage(ctx, err.Error())
 		return

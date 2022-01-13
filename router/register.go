@@ -48,5 +48,8 @@ func Register() *gin.Engine {
 	apiNeedLogin.POST("/sys_menu", api.Menu.Create)
 	apiNeedLogin.GET("/sys_menu", api.Menu.List)
 
+	// API组
+	apiNeedLogin.POST("/sys_api", api.SysApi.Create)
+	apiNeedLogin.GET("/sys_api/list", api.SysApi.List)
 	return router
 }

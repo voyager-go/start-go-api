@@ -19,7 +19,7 @@ type userService struct{}
 var User = userService{}
 
 // Create 创建一条记录
-func (s *userService) Create(req entities.UserServiceCreateReq) error {
+func (s *userService) Create(req *entities.UserServiceCreateReq) error {
 	var user entities.User
 	err := gconv.Struct(req, &user)
 	if err != nil {

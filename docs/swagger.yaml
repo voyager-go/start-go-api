@@ -1,4 +1,22 @@
 definitions:
+  entities.SysApiServiceCreateReq:
+    properties:
+      description:
+        type: string
+      group:
+        type: string
+      is_use:
+        type: integer
+      method:
+        type: integer
+      path:
+        type: string
+    required:
+    - description
+    - group
+    - method
+    - path
+    type: object
   entities.SysMenuServiceReq:
     properties:
       icon:
@@ -20,7 +38,6 @@ definitions:
     - level
     - name
     - pid
-    - sort
     - unique_key
     type: object
   entities.UserServiceCreateReq:
@@ -60,6 +77,64 @@ definitions:
 info:
   contact: {}
 paths:
+  /sys_api:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: API基础信息
+        in: body
+        name: userInfo
+        required: true
+        schema:
+          $ref: '#/definitions/entities.SysApiServiceCreateReq'
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: 创建一条API记录
+      tags:
+      - API操作
+  /sys_api/list:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 当前页
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: 每页条目
+        in: query
+        name: pageSize
+        required: true
+        type: integer
+      - description: 筛选条件
+        in: query
+        items:
+          type: string
+        name: searches
+        type: array
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: 获取api分页数据
+      tags:
+      - API操作
   /sys_menu:
     get:
       consumes:

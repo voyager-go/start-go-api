@@ -2,8 +2,6 @@ package entities
 
 import (
 	"github.com/voyager-go/start-go-api/entities/internal"
-	"github.com/voyager-go/start-go-api/global"
-	"github.com/voyager-go/start-go-api/pkg/util"
 )
 
 type User internal.User
@@ -28,11 +26,4 @@ type UserServiceUpdateReq struct {
 type UserServiceTokenReq struct {
 	Phone    string `json:"phone"`
 	Password string `json:"password"`
-}
-
-// UserServicePaginationReq 分页输入参数
-type UserServicePaginationReq struct {
-	util.Pagination
-	Searches []global.Search `json:"searches"`
-	Rows     interface{}     `json:"rows"`
 }

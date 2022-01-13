@@ -6,12 +6,12 @@ import (
 	"github.com/voyager-go/start-go-api/repositories"
 )
 
-type sysMenu struct{}
+type sysMenuService struct{}
 
-var SysMenuService sysMenu
+var SysMenu = new(sysMenuService)
 
 // Create 创建一条记录
-func (m *sysMenu) Create(req *entities.SysMenuServiceReq) error {
+func (m *sysMenuService) Create(req *entities.SysMenuServiceReq) error {
 	var menu entities.SysBaseMenu
 	err := gconv.Struct(req, &menu)
 	if err != nil {
@@ -21,7 +21,7 @@ func (m *sysMenu) Create(req *entities.SysMenuServiceReq) error {
 }
 
 // FindList 查询全部记录
-func (m *sysMenu) FindList() ([]entities.SysMenu, error) {
+func (m *sysMenuService) FindList() ([]entities.SysMenu, error) {
 	var menus []entities.SysMenu
 	result := repositories.NewSysMenuRepository().FindAll()
 	if result.Error != nil {

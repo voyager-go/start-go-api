@@ -15,7 +15,7 @@ func TestNewMysql(t *testing.T) {
 		  `phone` varchar(11) COLLATE utf8mb4_general_ci NOT NULL COMMENT '手机号',
 		  `password` varchar(200) COLLATE utf8mb4_general_ci NOT NULL COMMENT '密码',
 		  `status` tinyint(1) NOT NULL COMMENT '是否启用 0:禁用 1:启用',
-		  `created_at` int unsigned DEFAULT NULL COMMENT '创建时间',
+		  `created_at` int unsigned DEFAULT NULL COMMENT '创建时间',,
 		  `updated_at` int DEFAULT NULL COMMENT '更新时间',
 		  PRIMARY KEY (`id`),
 		  UNIQUE KEY `phone` (`phone`) USING BTREE COMMENT '手机号唯一',

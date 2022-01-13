@@ -91,7 +91,7 @@ func (r *UserRepository) CheckPassword(hashPassword, password string) Repository
 }
 
 // Pagination 分页构造器
-func (r *UserRepository) Pagination(pagination *entities.UserServicePaginationReq) RepositoryResult {
+func (r *UserRepository) Pagination(pagination *entities.PageReq) RepositoryResult {
 	var (
 		users          []entities.User
 		totalRows      int64
@@ -128,12 +128,16 @@ func (r *UserRepository) Pagination(pagination *entities.UserServicePaginationRe
 		return RepositoryResult{Error: err}
 	}
 	// 总条目
-	pagination.Rows = users
 	err = query.Count(&totalRows).Error
 	if err != nil {
 		return RepositoryResult{Error: err}
 	}
 	// 总条目数量
 	pagination.Total = int(totalRows)
-	return RepositoryResult{Result: pagination}
+	// 返回结构
+	pageResult := entities.PageResult{
+		Pagination: pagination.Pagination,
+		List:       users,
+	}
+	return RepositoryResult{Result: pageResult}
 }

@@ -30,7 +30,7 @@ func (m sysMenuApi) Create(ctx *gin.Context) {
 		response.FailWithMessage(ctx, errs[0])
 		return
 	}
-	err = service.SysMenuService.Create(&args)
+	err = service.SysMenu.Create(&args)
 	if err != nil {
 		response.FailWithMessage(ctx, err.Error())
 		return
@@ -48,7 +48,7 @@ func (m sysMenuApi) Create(ctx *gin.Context) {
 // @Success 200 {string} response.OkWithData
 // @Router /sys_menu [get]
 func (m sysMenuApi) List(ctx *gin.Context) {
-	list, err := service.SysMenuService.FindList()
+	list, err := service.SysMenu.FindList()
 	if err != nil {
 		response.FailWithMessage(ctx, err.Error())
 		return
