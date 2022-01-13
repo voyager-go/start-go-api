@@ -50,6 +50,6 @@ func Register() *gin.Engine {
 
 	// API组
 	apiNeedLogin.POST("/sys_api", api.SysApi.Create)
-	apiNeedLogin.GET("/sys_api/list", api.SysApi.List)
+	apiNeedLogin.POST("/sys_api/list", api.SysApi.List)
 	return router
 }

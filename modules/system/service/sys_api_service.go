@@ -4,7 +4,9 @@ import (
 	"errors"
 	"github.com/gogf/gf/util/gconv"
 	"github.com/voyager-go/start-go-api/entities"
+	"github.com/voyager-go/start-go-api/entities/enum"
 	"github.com/voyager-go/start-go-api/repositories"
+	"strconv"
 )
 
 type sysApiService struct{}
@@ -23,7 +25,17 @@ func (a *sysApiService) Create(req *entities.SysApiServiceCreateReq) error {
 	if row, ok := checkResult.Result.(*entities.SysApi); ok && row.ID > 0 {
 		return errors.New("api访问路径、所在分组、及访问方法是联合唯一的")
 	}
-	return repository.Create(&api).Error
+	ruleArgs := entities.CasbinRuleServiceCreateReq{
+		RoleID: strconv.FormatUint(req.RoleId, 10),
+		Path:   req.Path,
+		Method: enum.MethodType(req.Method).String(),
+	}
+	var rule entities.CasbinRule
+	err = gconv.Struct(ruleArgs, &rule)
+	if err != nil {
+		return err
+	}
+	return repository.Create(&api, &rule).Error
 }
 
 // Page 分页信息

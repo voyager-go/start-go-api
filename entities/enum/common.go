@@ -20,13 +20,13 @@ const (
 func (m MethodType) String() string {
 	switch m {
 	case SysApiMethodPost:
-		return "POST | 创建"
+		return "POST"
 	case SysApiMethodGet:
-		return "GET | 查看"
+		return "GET"
 	case SysApiMethodPut:
-		return "PUT | 更新"
+		return "PUT"
 	case SysApiMethodDelete:
-		return "DELETE | 删除"
+		return "DELETE"
 	default:
 		return "UnKnown"
 	}

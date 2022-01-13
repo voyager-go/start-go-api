@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/voyager-go/start-go-api/entities"
 	"github.com/voyager-go/start-go-api/modules/system/service"
@@ -20,7 +21,7 @@ var SysApi = sysApi{}
 // @Accept application/json
 // @Param Authorization header string true "Authorization"
 // @Param userInfo body entities.SysApiServiceCreateReq true "API基础信息"
-// @Success 200 {string} response.Ok
+// @Success 200 {object} response.JsonResponse
 // @Router /sys_api [post]
 func (u sysApi) Create(ctx *gin.Context) {
 	var args entities.SysApiServiceCreateReq
@@ -41,18 +42,17 @@ func (u sysApi) Create(ctx *gin.Context) {
 // List
 // @Summary 获取api分页数据
 // @Schemes
-// @Description
+// @Description 筛选条件请额外
 // @Tags API操作
 // @Accept application/json
 // @Param Authorization header string true "Authorization"
-// @Param page query int true "当前页"
-// @Param pageSize query int true "每页条目"
-// @Param searches query []global.Search false "筛选条件"
-// @Success 200 {string} response.Ok
-// @Router /sys_api/list [get]
+// @Param pageReq body entities.PageReq true "分页数据"
+// @Success 200 {object} response.JsonResponse
+// @Router /sys_api/list [post]
 func (u sysApi) List(ctx *gin.Context) {
 	var args entities.PageReq
-	err := ctx.ShouldBindQuery(&args)
+	err := ctx.ShouldBind(&args)
+	fmt.Println(args)
 	if err != nil {
 		errs := validator.Translate(err) // 验证器返回错误信息后，翻译成中文
 		response.FailWithMessage(ctx, errs[0])

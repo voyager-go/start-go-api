@@ -1,4 +1,17 @@
 definitions:
+  entities.PageReq:
+    properties:
+      page:
+        type: integer
+      pageSize:
+        type: integer
+      searches:
+        items:
+          $ref: '#/definitions/global.Search'
+        type: array
+      total:
+        type: integer
+    type: object
   entities.SysApiServiceCreateReq:
     properties:
       description:
@@ -11,11 +24,14 @@ definitions:
         type: integer
       path:
         type: string
+      role_id:
+        type: integer
     required:
     - description
     - group
     - method
     - path
+    - role_id
     type: object
   entities.SysMenuServiceReq:
     properties:
@@ -74,6 +90,29 @@ definitions:
       status:
         type: integer
     type: object
+  global.Search:
+    properties:
+      action:
+        description: '查询方式 如: equals 表示 = | like 表示 LIKE | in 表示 IN'
+        type: string
+      column:
+        description: '字段名称 如: nickname | phone'
+        type: string
+      needle:
+        description: '所需条件 如: equals时对应等于的那个值 | like时表示那个关键词 | in时表示一个用逗号分隔的字符串 "2,3,4,5,6"'
+        type: string
+    type: object
+  response.JsonResponse:
+    properties:
+      code:
+        description: 错误码
+        type: integer
+      data:
+        description: 返回数据(业务接口定义具体数据结构)
+      message:
+        description: 提示信息
+        type: string
+    type: object
 info:
   contact: {}
 paths:
@@ -97,41 +136,32 @@ paths:
         "200":
           description: OK
           schema:
-            type: string
+            $ref: '#/definitions/response.JsonResponse'
       summary: 创建一条API记录
       tags:
       - API操作
   /sys_api/list:
-    get:
+    post:
       consumes:
       - application/json
+      description: 筛选条件请额外
       parameters:
       - description: Authorization
         in: header
         name: Authorization
         required: true
         type: string
-      - description: 当前页
-        in: query
-        name: page
+      - description: 分页数据
+        in: body
+        name: pageReq
         required: true
-        type: integer
-      - description: 每页条目
-        in: query
-        name: pageSize
-        required: true
-        type: integer
-      - description: 筛选条件
-        in: query
-        items:
-          type: string
-        name: searches
-        type: array
+        schema:
+          $ref: '#/definitions/entities.PageReq'
       responses:
         "200":
           description: OK
           schema:
-            type: string
+            $ref: '#/definitions/response.JsonResponse'
       summary: 获取api分页数据
       tags:
       - API操作

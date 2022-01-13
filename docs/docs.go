@@ -54,14 +54,15 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/response.JsonResponse"
                         }
                     }
                 }
             }
         },
         "/sys_api/list": {
-            "get": {
+            "post": {
+                "description": "筛选条件请额外",
                 "consumes": [
                     "application/json"
                 ],
@@ -78,34 +79,20 @@ var doc = `{
                         "required": true
                     },
                     {
-                        "type": "integer",
-                        "description": "当前页",
-                        "name": "page",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "description": "每页条目",
-                        "name": "pageSize",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "description": "筛选条件",
-                        "name": "searches",
-                        "in": "query"
+                        "description": "分页数据",
+                        "name": "pageReq",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entities.PageReq"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/response.JsonResponse"
                         }
                     }
                 }
@@ -345,13 +332,34 @@ var doc = `{
         }
     },
     "definitions": {
+        "entities.PageReq": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "type": "integer"
+                },
+                "pageSize": {
+                    "type": "integer"
+                },
+                "searches": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/global.Search"
+                    }
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
         "entities.SysApiServiceCreateReq": {
             "type": "object",
             "required": [
                 "description",
                 "group",
                 "method",
-                "path"
+                "path",
+                "role_id"
             ],
             "properties": {
                 "description": {
@@ -368,6 +376,9 @@ var doc = `{
                 },
                 "path": {
                     "type": "string"
+                },
+                "role_id": {
+                    "type": "integer"
                 }
             }
         },
@@ -452,6 +463,39 @@ var doc = `{
                 },
                 "status": {
                     "type": "integer"
+                }
+            }
+        },
+        "global.Search": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "description": "查询方式 如: equals 表示 = | like 表示 LIKE | in 表示 IN",
+                    "type": "string"
+                },
+                "column": {
+                    "description": "字段名称 如: nickname | phone",
+                    "type": "string"
+                },
+                "needle": {
+                    "description": "所需条件 如: equals时对应等于的那个值 | like时表示那个关键词 | in时表示一个用逗号分隔的字符串 \"2,3,4,5,6\"",
+                    "type": "string"
+                }
+            }
+        },
+        "response.JsonResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "错误码",
+                    "type": "integer"
+                },
+                "data": {
+                    "description": "返回数据(业务接口定义具体数据结构)"
+                },
+                "message": {
+                    "description": "提示信息",
+                    "type": "string"
                 }
             }
         }

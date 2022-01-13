@@ -18,10 +18,20 @@ func NewSysApiRepository() *SysApiRepository {
 }
 
 // Create 创建API信息
-func (r *SysApiRepository) Create(api *entities.SysApi) RepositoryResult {
-	err := r.db.Create(api).Error
+func (r *SysApiRepository) Create(api *entities.SysApi, rule *entities.CasbinRule) RepositoryResult {
+	err := r.db.Transaction(func(tx *gorm.DB) error {
+		// API 描述入库
+		if err := tx.Create(api).Error; err != nil {
+			return err
+		}
+		// casbin 策略入库
+		if err := tx.Create(rule).Error; err != nil {
+			return err
+		}
+		return nil
+	})
 	if err != nil {
-		return RepositoryResult{Error: err}
+		return RepositoryResult{}
 	}
 	return RepositoryResult{Result: api}
 }

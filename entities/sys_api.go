@@ -13,4 +13,5 @@ type SysApiServiceCreateReq struct {
 	Group       string `json:"group" binding:"required"`
 	Method      int8   `json:"method" binding:"required"`
 	IsUse       *int8  `json:"is_use"`
+	RoleId      uint64 `json:"role_id" binding:"required"`
 }
