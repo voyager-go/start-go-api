@@ -4,8 +4,8 @@ import (
 	"github.com/voyager-go/start-go-api/global"
 )
 
-// User 用户信息表
-type User struct {
+// BaseUser 用户信息表
+type BaseUser struct {
 	global.Model
 	Nickname string `gorm:"length:80,column:nickname" json:"nickname"`
 	Phone    string `gorm:"unique,length:11,column:phone" json:"phone"`

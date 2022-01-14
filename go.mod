@@ -6,7 +6,8 @@ require (
 	cloud.google.com/go/pubsub v1.17.1
 	github.com/RichardKnop/machinery v1.10.6
 	github.com/aws/aws-sdk-go v1.42.25
-	github.com/casbin/gorm-adapter/v3 v3.4.6 // indirect
+	github.com/casbin/casbin/v2 v2.37.4
+	github.com/casbin/gorm-adapter/v3 v3.4.6
 	github.com/census-instrumentation/opencensus-proto v0.3.0 // indirect
 	github.com/cncf/xds/go v0.0.0-20211216145620-d92e9ce0af51 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible

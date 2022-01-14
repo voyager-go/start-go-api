@@ -26,7 +26,25 @@ func (r *UserRepository) Create(user *entities.User) RepositoryResult {
 		return RepositoryResult{Error: err}
 	}
 	user.Password = string(fromPassword)
-	err = r.db.Create(user).Error
+	err = r.db.Transaction(func(tx *gorm.DB) error {
+		err := tx.Create(user).Error
+		if err != nil {
+			return err
+		}
+		userRoles := make([]entities.SysRoleUser, len(user.RoleIds))
+		for _, roleId := range user.RoleIds {
+			record := entities.SysRoleUser{
+				RoleId: roleId,
+				UserId: user.ID,
+			}
+			userRoles = append(userRoles, record)
+		}
+		err = tx.Create(&userRoles).Error
+		if err != nil {
+			return err
+		}
+		return nil
+	})
 	if err != nil {
 		return RepositoryResult{Error: err}
 	}
@@ -45,7 +63,14 @@ func (r *UserRepository) Update(user *entities.User) RepositoryResult {
 // FindOneById 通过主键ID查询一条记录
 func (r *UserRepository) FindOneById(id uint64) RepositoryResult {
 	var user entities.User
-	err := r.db.Where(&entities.User{Model: global.Model{ID: id}}).Take(&user).Error
+	condition := &entities.User{
+		BaseUser: entities.BaseUser{
+			Model: global.Model{
+				ID: id,
+			},
+		},
+	}
+	err := r.db.Where(condition).Take(&user).Error
 	if err != nil {
 		return RepositoryResult{Error: err}
 	}
@@ -64,7 +89,14 @@ func (r *UserRepository) FindAll() RepositoryResult {
 
 // DeleteOneById 根据主键删除一条记录
 func (r *UserRepository) DeleteOneById(id uint64) RepositoryResult {
-	err := r.db.Delete(&entities.User{Model: global.Model{ID: id}}).Error
+	condition := &entities.User{
+		BaseUser: entities.BaseUser{
+			Model: global.Model{
+				ID: id,
+			},
+		},
+	}
+	err := r.db.Delete(condition).Error
 	if err != nil {
 		return RepositoryResult{Error: err}
 	}
@@ -77,7 +109,12 @@ func (r *UserRepository) FindOneByPhone(phone string) RepositoryResult {
 		return RepositoryResult{Error: errors.New("手机号不得为空")}
 	}
 	var user entities.User
-	err := r.db.Where(&entities.User{Phone: phone}).Take(&user).Error
+	condition := &entities.User{
+		BaseUser: entities.BaseUser{
+			Phone: phone,
+		},
+	}
+	err := r.db.Where(condition).Take(&user).Error
 	if err != nil {
 		return RepositoryResult{Error: err}
 	}

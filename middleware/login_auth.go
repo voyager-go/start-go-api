@@ -8,7 +8,13 @@ import (
 	"net/http"
 )
 
-// NeedLogin 登录中间件
+// NeedLogin
+//@author: [张文杰](https://github.com/voyager-go)
+//@slogan    岁岁平，岁岁安，岁岁平安
+//@description: 登录中间件
+//@create_date: 2022/1/14
+//@create_time: 6:08 下午
+//@param: ctx *gin.Context
 func NeedLogin(ctx *gin.Context) {
 	token := ctx.GetHeader(config.Conf.TokenKey)
 	if token == "" {

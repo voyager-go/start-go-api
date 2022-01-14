@@ -33,7 +33,7 @@ func Register() *gin.Engine {
 			middleware.IpAuth(),
 		}
 		apiGroup     = router.Group("/api", publicMiddleware...)
-		apiNeedLogin = router.Group("/api", append(publicMiddleware, middleware.NeedLogin)...)
+		apiNeedLogin = router.Group("/api", append(publicMiddleware, middleware.NeedLogin, middleware.CasbinAuth())...)
 	)
 	// 公用组
 	routes.InitPublicCommonRouter(apiGroup)

@@ -2,7 +2,7 @@
 POST {{baseUrl}}/user/login
 Content-Type: application/json
 
-{"phone": "15105191183","password": "123456"}
+{"phone": "15105191184","password": "123456555"}
 
 ### 查询某个用户详情
 GET {{baseUrl}}/user/3

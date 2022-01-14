@@ -4,7 +4,12 @@ import (
 	"github.com/voyager-go/start-go-api/entities/internal"
 )
 
-type User internal.User
+type BaseUser internal.BaseUser
+
+type User struct {
+	BaseUser
+	RoleIds []uint64 `gorm:"-" json:"role_ids"`
+}
 
 // UserServiceCreateReq 创建user输入参数
 type UserServiceCreateReq struct {

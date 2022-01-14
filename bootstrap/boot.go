@@ -2,6 +2,8 @@ package bootstrap
 
 import (
 	"fmt"
+	"github.com/casbin/casbin/v2"
+	gormadapter "github.com/casbin/gorm-adapter/v3"
 	"github.com/voyager-go/start-go-api/config"
 	"github.com/voyager-go/start-go-api/global"
 	"github.com/voyager-go/start-go-api/pkg/lib"
@@ -10,9 +12,10 @@ import (
 
 // 定义服务列表
 const (
-	LogService   = `Logger`
-	RedisService = `Redis`
-	MysqlService = `MySQL`
+	LogService    = `Logger`
+	RedisService  = `Redis`
+	MysqlService  = `MySQL`
+	CasbinService = `CASBIN`
 )
 
 type bootServiceMap map[string]func() error
@@ -22,9 +25,21 @@ var BootedService []string
 
 // serviceMap 程序启动时需要自动载入的服务
 var serviceMap = bootServiceMap{
-	LogService:   BootLogger,
-	MysqlService: BootMysql,
-	RedisService: BootRedis,
+	LogService:    BootLogger,
+	MysqlService:  BootMysql,
+	RedisService:  BootRedis,
+	CasbinService: BootCasbin,
+}
+
+// BootCasbin 将配置载入Casbin服务
+func BootCasbin() error {
+	adapter, _ := gormadapter.NewAdapterByDB(global.DB)
+	global.Enforcer, _ = casbin.NewEnforcer("rbac_model.conf", adapter)
+	err := global.Enforcer.LoadPolicy()
+	if err == nil {
+		fmt.Println("程序载入Casbin服务成功! ")
+	}
+	return err
 }
 
 // BootRedis 将配置载入Redis服务
