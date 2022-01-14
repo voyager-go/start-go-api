@@ -16,7 +16,6 @@ import (
 func InitUserGroup(r *gin.RouterGroup) (router gin.IRoutes) {
 	userGroup := r.Group("")
 	{
-		userGroup.POST("/user/login", api.User.Login)
 		userGroup.POST("/user/logout", api.User.Logout)
 		userGroup.GET("/user/:id", api.User.Show)
 		userGroup.PUT("/user/:id", api.User.Update)

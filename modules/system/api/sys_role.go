@@ -19,7 +19,7 @@ var SysRole = sysRoleApi{}
 // @Tags 角色管理
 // @Accept application/json
 // @Param Authorization   header string true "Authorization"
-// @Param role body entities.SysRole true "角色基础信息"
+// @Param role body entities.SysRoleServiceCreateReq true "角色基础信息"
 // @Success 200 {object} response.JsonResponse
 // @Router /sys_role [post]
 func (s sysRoleApi) Create(ctx *gin.Context) {

@@ -18,6 +18,8 @@ func InitPublicCommonRouter(r *gin.RouterGroup) (router gin.IRoutes) {
 	{
 		// 健康检查
 		commonRoutes.GET("/ping", api.Check.Ping)
+		// 授权登录
+		commonRoutes.POST("/user/login", api.User.Login)
 	}
 	return commonRoutes
 }

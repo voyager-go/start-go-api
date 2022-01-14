@@ -37,6 +37,8 @@ func Register() *gin.Engine {
 	)
 	// 公用组
 	routes.InitPublicCommonRouter(apiGroup)
+	// 角色组
+	routes.InitSyRoleGroup(apiNeedLogin)
 	// 用户组
 	routes.InitUserGroup(apiNeedLogin)
 	// 菜单组

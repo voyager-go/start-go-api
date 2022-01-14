@@ -65,6 +65,17 @@ definitions:
       role_id:
         type: integer
     type: object
+  entities.SysRoleServiceCreateReq:
+    properties:
+      is_use:
+        type: integer
+      name:
+        type: string
+      pid:
+        type: integer
+    required:
+    - name
+    type: object
   entities.UserServiceCreateReq:
     properties:
       nickname:
@@ -215,6 +226,30 @@ paths:
       summary: 创建一条用户记录
       tags:
       - 菜单操作
+  /sys_role:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 角色基础信息
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/entities.SysRoleServiceCreateReq'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.JsonResponse'
+      summary: 新增一个角色
+      tags:
+      - 角色管理
   /user:
     post:
       consumes:
