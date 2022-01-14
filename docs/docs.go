@@ -415,6 +415,20 @@ var doc = `{
                 }
             }
         },
+        "entities.SysRoleMenuServiceCreateReq": {
+            "type": "object",
+            "properties": {
+                "menu_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "role_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "entities.UserServiceCreateReq": {
             "type": "object",
             "required": [

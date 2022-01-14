@@ -56,6 +56,15 @@ definitions:
     - pid
     - unique_key
     type: object
+  entities.SysRoleMenuServiceCreateReq:
+    properties:
+      menu_ids:
+        items:
+          type: integer
+        type: array
+      role_id:
+        type: integer
+    type: object
   entities.UserServiceCreateReq:
     properties:
       nickname:

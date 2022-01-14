@@ -9,7 +9,7 @@ import (
 	"github.com/voyager-go/start-go-api/config"
 	"github.com/voyager-go/start-go-api/docs"
 	"github.com/voyager-go/start-go-api/middleware"
-	"github.com/voyager-go/start-go-api/modules/system/api"
+	"github.com/voyager-go/start-go-api/router/routes"
 	"net/http"
 )
 
@@ -26,30 +26,22 @@ func Register() *gin.Engine {
 	// swagger 配置
 	docs.SwaggerInfo.BasePath = "/api"
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
-	// 健康检查
-	router.GET("/ping", api.Check.Ping)
 	// 路由分组
 	var (
 		publicMiddleware = []gin.HandlerFunc{
 			cors.Default(),
 			middleware.IpAuth(),
 		}
-		// 用户组
 		apiGroup     = router.Group("/api", publicMiddleware...)
 		apiNeedLogin = router.Group("/api", append(publicMiddleware, middleware.NeedLogin)...)
 	)
-	apiGroup.POST("/user/login", api.User.Login)
-	apiNeedLogin.POST("/user/logout", api.User.Logout)
-	apiNeedLogin.GET("/user/:id", api.User.Show)
-	apiNeedLogin.PUT("/user/:id", api.User.Update)
-	apiNeedLogin.POST("/user", api.User.Create)
-
+	// 公用组
+	routes.InitPublicCommonRouter(apiGroup)
+	// 用户组
+	routes.InitUserGroup(apiNeedLogin)
 	// 菜单组
-	apiNeedLogin.POST("/sys_menu", api.Menu.Create)
-	apiNeedLogin.GET("/sys_menu", api.Menu.List)
-
+	routes.InitSysMenuGroup(apiNeedLogin)
 	// API组
-	apiNeedLogin.POST("/sys_api", api.SysApi.Create)
-	apiNeedLogin.POST("/sys_api/list", api.SysApi.List)
+	routes.InitSysApiGroup(apiNeedLogin)
 	return router
 }
