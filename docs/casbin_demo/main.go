@@ -22,7 +22,7 @@ func main() {
 }
 
 func InitRouter() *gin.Engine {
-	enforcer, _ := casbin.NewEnforcer("/Users/artist/Program/go/start-go-api/casbin/rbac_model.conf", adapter)
+	enforcer, _ := casbin.NewEnforcer("rbac_model.conf", adapter)
 	enforcer.LoadPolicy()
 	r := gin.Default()
 	r.Use(Authorize(enforcer))
