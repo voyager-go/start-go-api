@@ -60,7 +60,7 @@ func GetLoginUser(ctx *gin.Context) (LoginUser, error) {
 	if err != nil {
 		return LoginUser{}, err
 	}
-	user := entities.User{}
+	var user entities.User
 	err = json.Unmarshal([]byte(result), &user)
 	if err != nil {
 		return LoginUser{}, err

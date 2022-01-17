@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/gogf/gf/util/gconv"
 	"github.com/voyager-go/start-go-api/config"
 	"github.com/voyager-go/start-go-api/entities"
@@ -81,7 +82,18 @@ func (s *userService) Login(req entities.UserServiceTokenReq) (string, error) {
 	if err != nil {
 		return "", errors.New("token生成失败")
 	}
+	roleResult := repositories.NewSysRoleUserRepository().FindAllByUserId(user.ID)
+	if roleResult.Error != nil {
+		return "", roleResult.Error
+	}
+	roleInfo := roleResult.Result.([]entities.SysRoleUser)
+	if len(roleInfo) > 0 {
+		for _, role := range roleInfo {
+			user.RoleIds = append(user.RoleIds, role.RoleId)
+		}
+	}
 	marshal, err := json.Marshal(user)
+	fmt.Println(string(marshal))
 	if err != nil {
 		return "", errors.New("token编码失败")
 	}

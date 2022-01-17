@@ -15,14 +15,13 @@ func NewSysRoleUserRepository() *SysRoleUserRepository {
 	return &SysRoleUserRepository{db: global.DB}
 }
 
-// FindAllByUserId 创建角色
+// FindAllByUserId 查询角色
 func (r *SysRoleUserRepository) FindAllByUserId(userId uint64) RepositoryResult {
-	var rows entities.SysRoleUser
-	var roleIds []uint64
+	var rows []entities.SysRoleUser
 	condition := &entities.SysRoleUser{UserId: userId}
-	err := r.db.Where(condition).Select(roleIds).Find(&rows).Error
+	err := r.db.Select("role_id").Where(condition).Find(&rows).Error
 	if err != nil {
 		return RepositoryResult{Error: err}
 	}
-	return RepositoryResult{Result: roleIds}
+	return RepositoryResult{Result: rows}
 }

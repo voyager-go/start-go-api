@@ -109,12 +109,11 @@ func (r *UserRepository) FindOneByPhone(phone string) RepositoryResult {
 		return RepositoryResult{Error: errors.New("手机号不得为空")}
 	}
 	var user entities.User
-	condition := &entities.User{
+	err := r.db.Where(&entities.User{
 		BaseUser: entities.BaseUser{
 			Phone: phone,
 		},
-	}
-	err := r.db.Where(condition).Take(&user).Error
+	}).Take(&user).Error
 	if err != nil {
 		return RepositoryResult{Error: err}
 	}

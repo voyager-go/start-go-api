@@ -1,7 +1,6 @@
 package global
 
 import (
-	"github.com/casbin/casbin/v2"
 	"github.com/go-redis/redis/v8"
 	"github.com/voyager-go/start-go-api/pkg/lib"
 	"github.com/voyager-go/start-go-api/pkg/util"
@@ -23,8 +22,7 @@ type Search struct {
 }
 
 var (
-	DB       *gorm.DB         // MySQL数据库
-	Logger   *lib.Logger      // 日志
-	Redis    *redis.Client    // Redis连接池
-	Enforcer *casbin.Enforcer // Casbin权限策略
+	DB     *gorm.DB      // MySQL数据库
+	Logger *lib.Logger   // 日志
+	Redis  *redis.Client // Redis连接池
 )
