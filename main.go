@@ -7,6 +7,7 @@ import (
 	"github.com/urfave/cli/v2"
 	"github.com/voyager-go/start-go-api/bootstrap"
 	"github.com/voyager-go/start-go-api/config"
+	"github.com/voyager-go/start-go-api/pkg/migrate"
 	"github.com/voyager-go/start-go-api/pkg/validator"
 	"github.com/voyager-go/start-go-api/router"
 	schedule_server "github.com/voyager-go/start-go-api/schedule/server"
@@ -68,6 +69,8 @@ func stack() *cli.App {
 			bootstrap.BootService()
 			// 引入验证翻译器
 			validator.NewValidate()
+			// 自动生成表结构
+			migrate.AuthMigrate()
 			// 注册路由 启动程序
 			return router.Register().Run(":" + AppPort)
 		},
