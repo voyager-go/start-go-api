@@ -2,7 +2,7 @@ package service
 
 import (
 	"errors"
-	"github.com/gogf/gf/util/gconv"
+	"github.com/jinzhu/copier"
 	"github.com/voyager-go/start-go-api/entities"
 	"github.com/voyager-go/start-go-api/entities/enum"
 	"github.com/voyager-go/start-go-api/repositories"
@@ -16,7 +16,7 @@ var SysApi = new(sysApiService)
 // Create 创建一条API信息
 func (a *sysApiService) Create(req *entities.SysApiServiceCreateReq) error {
 	var api entities.SysApi
-	err := gconv.Struct(req, &api)
+	err := copier.Copy(&api, req)
 	if err != nil {
 		return err
 	}
@@ -31,7 +31,7 @@ func (a *sysApiService) Create(req *entities.SysApiServiceCreateReq) error {
 		Method: enum.MethodType(req.Method).String(),
 	}
 	var rule entities.CasbinRule
-	err = gconv.Struct(ruleArgs, &rule)
+	err = copier.Copy(&rule, ruleArgs)
 	if err != nil {
 		return err
 	}

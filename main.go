@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"github.com/RichardKnop/machinery/v1"
-	"github.com/gogf/gf/os/gtime"
 	"github.com/urfave/cli/v2"
 	"github.com/voyager-go/start-go-api/bootstrap"
 	"github.com/voyager-go/start-go-api/config"
@@ -14,6 +13,7 @@ import (
 	schedule_worker "github.com/voyager-go/start-go-api/schedule/worker"
 	"os"
 	"runtime"
+	"time"
 )
 
 var (
@@ -36,7 +36,7 @@ var (
 
 // stack 程序运行前的处理
 func stack() *cli.App {
-	buildInfo := fmt.Sprintf("%s-%s-%s-%s-%s", runtime.GOOS, runtime.GOARCH, BuildVersion, BuildAt, gtime.Now())
+	buildInfo := fmt.Sprintf("%s-%s-%s-%s-%s", runtime.GOOS, runtime.GOARCH, BuildVersion, BuildAt, time.Now().Format("2006-01-02 15:04:05"))
 	if openSchedule {
 		var err error
 		taskServer, err = schedule_server.InitMachineryServer()

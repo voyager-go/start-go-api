@@ -65,7 +65,7 @@ go run main.go worker # 启动worker对任务进行消费
 - go-redis 项目地址: https://github.com/go-redis/redis
 - jwt-go 项目地址: https://github.com/dgrijalva/jwt-go
 - cors 项目地址: https://github.com/gin-contrib/cors
-- gconv 类型转换库 项目地址: https://godoc.org/github.com/gogf/gf/util/gconv
+- copier 变量拷贝 项目地址: https://github.com/jinzhu/copier
 - validator.v10 项目地址: https://github.com/go-playground/validator
 - cli 构建命令行应用程序 项目地址: https://github.com/urfave/cli
 - machinary 异步任务框架 项目地址: https://github.com/RichardKnop/machinery

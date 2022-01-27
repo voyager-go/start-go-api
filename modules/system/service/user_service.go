@@ -4,8 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
-	"github.com/gogf/gf/util/gconv"
+	"github.com/jinzhu/copier"
 	"github.com/voyager-go/start-go-api/config"
 	"github.com/voyager-go/start-go-api/entities"
 	"github.com/voyager-go/start-go-api/global"
@@ -22,7 +21,7 @@ var User = userService{}
 // Create 创建一条记录
 func (s *userService) Create(req *entities.UserServiceCreateReq) error {
 	var user entities.User
-	err := gconv.Struct(req, &user)
+	err := copier.Copy(&user, req)
 	if err != nil {
 		return err
 	}
@@ -48,7 +47,7 @@ func (s *userService) Update(req entities.UserServiceUpdateReq) error {
 			return errors.New("该手机号已经存在")
 		}
 	}
-	err := gconv.Struct(req, &user)
+	err := copier.Copy(&user, req)
 	if err != nil {
 		return errors.New("请求参数错误")
 	}
@@ -93,11 +92,10 @@ func (s *userService) Login(req entities.UserServiceTokenReq) (string, error) {
 		}
 	}
 	marshal, err := json.Marshal(user)
-	fmt.Println(string(marshal))
 	if err != nil {
 		return "", errors.New("token编码失败")
 	}
-	err = global.Redis.Set(context.Background(), config.Conf.Redis.LoginPrefix+gconv.String(user.Model.ID), string(marshal), time.Duration(config.Conf.Server.TokenExpire)*time.Second).Err()
+	err = global.Redis.Set(context.Background(), config.Conf.Redis.LoginPrefix+strconv.FormatUint(user.Model.ID, 10), string(marshal), time.Duration(config.Conf.Server.TokenExpire)*time.Second).Err()
 	if err != nil {
 		return "", errors.New("用户信息持久化失败")
 	}
