@@ -1,0 +1,17 @@
+.git
+.gitignore
+*.md
+!README.md
+.env
+.env.*
+config.dev.yaml
+config.pre.yaml
+config_task.yaml
+storage/logs
+storage/uploads
+*.log
+.idea
+.vscode
+*.test
+*.exe
+vendor/

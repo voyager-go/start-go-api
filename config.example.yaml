@@ -1,0 +1,34 @@
+# Start Go API 配置示例
+# 使用前请复制此文件为 config.dev.yaml 并修改为实际配置
+# cp config.example.yaml config.dev.yaml
+
+server:
+  mode: 'debug'                    # debug | release
+  defaultPageSize: 20              # 默认分页条数
+  maxPageSize: 500                 # 最大分页条数
+  tokenExpire: 3600                # token 过期时间（秒）
+  tokenKey: 'Authorization'        # token 的 HTTP 头键名
+  tokenIssuer: 'start-go-api'
+  jwtSecret: '请替换为你的 JWT 密钥'  # 生产环境务必使用强随机字符串
+
+log:
+  debug: true
+  fileName: 'start-go-api'
+  dirPath: 'storage/logs'
+
+mysql:
+  host: '127.0.0.1'
+  port: '3306'
+  user: 'root'
+  password: '你的数据库密码'
+  dbname: 'startgoapi'
+
+redis:
+  host: '127.0.0.1'
+  port: '6379'
+  password: ''                     # 无密码留空
+  dbNum: 0
+  loginPrefix: 'start_go_api_login_'
+
+# 异步任务（machinery）可选配置
+# task:

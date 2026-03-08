@@ -145,3 +145,14 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# 本地配置文件（含敏感信息，请复制 config.example.yaml 为 config.dev.yaml 后修改）
+config.dev.yaml
+config.pre.yaml
+config_task.yaml
+.env
+.env.*
+
+# 项目运行时生成
+storage/logs/*.log
+storage/uploads/
+

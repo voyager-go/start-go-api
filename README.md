@@ -1,77 +1,171 @@
-### 项目名称 
-#### Start Go Api
+# Start Go API
 
-### 项目用途
-#### 使用gin框架作为基础开发库，封装一套适用于面向api编程的快速开发结构，适合刚学习Golang的新手，目前项目集成了Casbin权限策略控制、异步任务等
+基于 [Gin](https://github.com/gin-gonic/gin) 的 Go API 快速开发骨架，适合作为学习 Golang 或二次开发的基础项目。集成 Casbin 权限、JWT 认证、异步任务（Machinery）等常用能力。
 
-### 生成API文档
-```shell
-swag init # 默认使用swagger作为文档管理工具 
-```
-### 项目启动方式
-```shell
+[![Go Report Card](https://goreportcard.com/badge/github.com/voyager-go/start-go-api)](https://goreportcard.com/report/github.com/voyager-go/start-go-api)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+## 特性
+
+- **Gin**：HTTP 路由与中间件
+- **GORM**：MySQL 访问与迁移
+- **Redis**：缓存与登录态
+- **JWT**：Token 认证
+- **Casbin**：RBAC 权限控制
+- **Machinery**：基于 Redis 的异步任务
+- **Swagger**：API 文档（`swag init` 生成）
+- **CLI**：环境/端口等通过命令行参数配置
+
+## 快速开始
+
+### 环境要求
+
+- Go 1.16+
+- MySQL 8.0+
+- Redis（可选，用于登录态与异步任务）
+
+### 本地运行
+
+```bash
+# 克隆项目
+git clone https://github.com/voyager-go/start-go-api.git
+cd start-go-api
+
+# 安装依赖
 go mod tidy
-go run main.go # 默认使用8090作为启动端口，默认使用config.dev.yaml作为配置文件
+
+# 复制示例配置并按需修改（数据库、Redis、JWT 密钥等）
+cp config.example.yaml config.dev.yaml
+
+# 创建数据库（与 config.dev.yaml 中 mysql.dbname 一致）
+# mysql -e "CREATE DATABASE startgoapi CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;"
+
+# 启动（默认端口 8090，使用 config.dev.yaml）
+go run main.go
 ```
 
-### 项目命令介绍
-```shell
-go run main.go -h          # 可查询全部命令
-go run main.go -v          # 可查询当前编译版本
-go run main.go --env dev   # 可指定配置文件(例如: dev或者pre)
-go run main.go --port 9999 # 可指定程序启动端口
+访问：
+
+- API：`http://localhost:8090`
+- Swagger：`http://localhost:8090/swagger/index.html`（需先执行 `swag init`）
+
+### 命令行参数
+
+```bash
+go run main.go -h              # 查看帮助
+go run main.go -v              # 查看版本
+go run main.go --env dev       # 指定配置：config.dev.yaml
+go run main.go --env pre       # 指定配置：config.pre.yaml
+go run main.go --port 9999     # 指定端口
 ```
 
-### 异步任务介绍
-> 项目中集成了异步任务框架machinery，需要在`main.go`中手动开启任务调度，然后在`schedule`中编写相关代码。
-```shell
-go run main.go server # 启动以及注册任务，并将异步任务推送至redis队列中
-go run main.go worker # 启动worker对任务进行消费
+### 使用 Docker
+
+**仅构建并运行 API 容器**（需已有 MySQL、Redis 或使用下方 compose）：
+
+```bash
+cp config.example.yaml config.dev.yaml
+# 编辑 config.dev.yaml 中的 mysql / redis 等配置
+
+docker build -t start-go-api .
+docker run -p 8090:8090 -v $(pwd)/config.dev.yaml:/app/config.dev.yaml start-go-api --env dev --port 8090
 ```
 
-### 目录结构介绍
-```shell
-|-modules         # 模块存放目录
-  |-system        # 示例模块
-    |-api         # 示例API
-    |-service     # 示例业务
-|-bootstap        # 程序启动时需要加载的服务
-|-config          # 解析配置文件
-|-repositories    # 数据库的增删改查
-|-docs            # 存放一些swagger接口文档与api请求示例以及SQL文件
-  |-request_demo  # jetbrains自带的HTTP请求示例
-  |-sql           # 项目初始化时的SQL参考示例
-|-entities        # 存放表对应的实体，可以理解为model
-|-global          # 一些全局变量以及全局方法
-|-middleware      # 实现简单的中间件
-|-pkg             # 自定义的常用服务、JWT、助手函数与格式化返回
-  |-auth          # jwt认证
-  |-lib           # 构造日志服务、数据库服务、Redis服务等
-  |-response      # 返回值的格式化处理
-  |-util          # 助手函数
-  |-validator     # 自定义验证器
-|-router          # 路由注册
-|-storage         # 默认存放一些资源文件，如日志文件、上传文件等
-```
-### 基础组件
+**使用 Docker Compose 一键启动 API + MySQL + Redis**：
 
-- gin框架     项目地址: https://github.com/gin-gonic/gin
-- yaml配置库 项目地址: https://github.com/go-yaml/yaml
-- logrus日志库以及相关钩子
-    - https://github.com/sirupsen/logrus
-    - https://github.com/rifflock/lfshook
-    - https://github.com/lestrrat-go/file-rotatelogs
-- gorm v2 对象关联映射库 项目地址: https://github.com/go-gorm/gorm
-- go-redis 项目地址: https://github.com/go-redis/redis
-- jwt-go 项目地址: https://github.com/dgrijalva/jwt-go
-- cors 项目地址: https://github.com/gin-contrib/cors
-- copier 变量拷贝 项目地址: https://github.com/jinzhu/copier
-- validator.v10 项目地址: https://github.com/go-playground/validator
-- cli 构建命令行应用程序 项目地址: https://github.com/urfave/cli
-- machinary 异步任务框架 项目地址: https://github.com/RichardKnop/machinery
-### 项目在编写与设计时参考了Github上一些优秀的项目
-- https://github.com/gogf/gf
-- https://github.com/gogf/gf-demos
-- https://github.com/jangozw/go-quick-api
-- https://github.com/flipped-aurora/gin-vue-admin
-- https://github.com/mesfreeman/gin-skeleton
+```bash
+cp config.example.yaml config.dev.yaml
+# 将 config.dev.yaml 中 mysql.host 改为 mysql，redis.host 改为 redis，并设置 mysql.password: root 等
+docker compose up -d
+# API: http://localhost:8090
+```
+
+首次使用 compose 时，需在应用启动后执行数据库迁移或导入 `docs/sql/startgoapi.sql` 初始化表结构。
+
+## 配置说明
+
+| 配置项 | 说明 |
+|--------|------|
+| `server.mode` | 运行模式：debug / release |
+| `server.jwtSecret` | JWT 签名密钥，生产环境务必使用强随机字符串 |
+| `server.tokenExpire` | Token 过期时间（秒） |
+| `mysql.*` | MySQL 连接信息 |
+| `redis.*` | Redis 连接信息 |
+
+配置文件支持环境变量展开，例如：`password: ${MYSQL_PASSWORD}`。
+
+## 异步任务（Machinery）
+
+项目集成 [Machinery](https://github.com/RichardKnop/machinery)，需在 `main.go` 中开启任务调度，并在 `schedule` 包中编写任务与注册逻辑。
+
+```bash
+# 启动 Server：注册任务并投递到 Redis 队列
+go run main.go server
+
+# 启动 Worker：消费队列中的任务
+go run main.go worker
+```
+
+## 生成 API 文档
+
+```bash
+swag init
+# 或使用 Makefile
+make swag
+```
+
+## 目录结构
+
+```
+├── bootstrap/          # 启动时加载的服务
+├── config/             # 配置解析与常量
+├── docs/               # Swagger、SQL、请求示例
+├── entities/           # 数据模型（含 Casbin）
+├── global/             # 全局变量与上下文
+├── middleware/         # 中间件（JWT、Casbin、IP 等）
+├── modules/            # 业务模块
+│   └── system/         # 示例：用户、角色、菜单、API 等
+├── pkg/                # 公共包
+│   ├── auth/           # JWT
+│   ├── lib/            # 日志、MySQL、Redis
+│   ├── response/       # 统一响应
+│   ├── util/           # 工具函数
+│   └── validator/      # 参数校验与翻译
+├── repositories/       # 数据访问层
+├── router/             # 路由注册
+├── schedule/           # 异步任务（Machinery）
+├── storage/            # 日志、上传文件等
+├── config.example.yaml # 配置示例（复制为 config.dev.yaml 使用）
+├── docker-compose.yml
+├── Dockerfile
+├── main.go
+├── Makefile
+└── rbac_model.conf     # Casbin 模型
+```
+
+## 主要依赖
+
+| 组件 | 说明 |
+|------|------|
+| [gin](https://github.com/gin-gonic/gin) | HTTP 框架 |
+| [gorm](https://github.com/go-gorm/gorm) | ORM |
+| [go-redis](https://github.com/go-redis/redis) | Redis 客户端 |
+| [casbin](https://github.com/casbin/casbin) | 权限控制 |
+| [jwt-go](https://github.com/dgrijalva/jwt-go) | JWT |
+| [machinery](https://github.com/RichardKnop/machinery) | 异步任务 |
+| [swag](https://github.com/swaggo/swag) | Swagger 文档 |
+
+## 参考项目
+
+- [gf](https://github.com/gogf/gf) / [gf-demos](https://github.com/gogf/gf-demos)
+- [go-quick-api](https://github.com/jangozw/go-quick-api)
+- [gin-vue-admin](https://github.com/flipped-aurora/gin-vue-admin)
+- [gin-skeleton](https://github.com/mesfreeman/gin-skeleton)
+
+## 贡献
+
+欢迎提交 Issue 与 Pull Request，请先阅读 [CONTRIBUTING.md](CONTRIBUTING.md)。
+
+## 许可证
+
+[MIT](LICENSE)

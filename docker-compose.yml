@@ -1,0 +1,46 @@
+# 本地开发/演示：API + MySQL + Redis
+# 使用前请将 config.example.yaml 复制为 config.dev.yaml，并确保 mysql/redis 与下方配置一致
+
+services:
+  app:
+    build: .
+    ports:
+      - "8090:8090"
+    environment:
+      - GIN_MODE=debug
+    volumes:
+      - ./config.dev.yaml:/app/config.dev.yaml
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: startgoapi
+      MYSQL_USER: startgoapi
+      MYSQL_PASSWORD: startgoapi
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  mysql_data:
+  redis_data:

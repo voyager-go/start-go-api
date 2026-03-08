@@ -2,9 +2,9 @@ package config
 
 import (
 	"fmt"
-	"gopkg.in/yaml.v2"
-	"io/ioutil"
 	"os"
+
+	"gopkg.in/yaml.v2"
 )
 
 var (
@@ -51,10 +51,14 @@ type Redis struct {
 
 // InitConfig 初始化配置信息
 func InitConfig() {
-	var configFile = fmt.Sprintf("config.%s.yaml", ConfEnv)
-	yamlConf, err := ioutil.ReadFile(configFile)
+	configFile := fmt.Sprintf("config.%s.yaml", ConfEnv)
+	yamlConf, err := os.ReadFile(configFile)
 	if err != nil {
-		panic(fmt.Errorf("读取配置文件失败: %s", err))
+		exampleFile := "config.example.yaml"
+		if _, e := os.Stat(exampleFile); e == nil {
+			panic(fmt.Errorf("读取配置文件失败: %s。请复制 %s 为 %s 并修改配置后重试", err, exampleFile, configFile))
+		}
+		panic(fmt.Errorf("读取配置文件失败: %s。请先创建 %s（可参考仓库中的 config.example.yaml）", err, configFile))
 	}
 	// 根据当前环境的值来替换配置文件中的环境变量(配合docker)
 	yamlConf = []byte(os.ExpandEnv(string(yamlConf)))
