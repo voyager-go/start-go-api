@@ -2,10 +2,22 @@ package lib
 
 import (
 	"github.com/stretchr/testify/assert"
-	"github.com/voyager-go/start-go-api/entities"
 	"golang.org/x/crypto/bcrypt"
 	"testing"
 )
+
+// testUser 仅用于 TestNewMysql，避免 import entities 造成 pkg/lib → entities → global → pkg/lib 的导入循环
+type testUser struct {
+	ID        uint   `gorm:"primaryKey"`
+	Nickname  string `gorm:"column:nickname"`
+	Phone     string `gorm:"column:phone"`
+	Password  string `gorm:"column:password"`
+	Status    int8   `gorm:"column:status"`
+	CreatedAt *int   `gorm:"column:created_at"`
+	UpdatedAt *int   `gorm:"column:updated_at"`
+}
+
+func (testUser) TableName() string { return "sys_user" }
 
 func TestNewMysql(t *testing.T) {
 	/*
@@ -15,7 +27,7 @@ func TestNewMysql(t *testing.T) {
 		  `phone` varchar(11) COLLATE utf8mb4_general_ci NOT NULL COMMENT '手机号',
 		  `password` varchar(200) COLLATE utf8mb4_general_ci NOT NULL COMMENT '密码',
 		  `status` tinyint(1) NOT NULL COMMENT '是否启用 0:禁用 1:启用',
-		  `created_at` int unsigned DEFAULT NULL COMMENT '创建时间',,
+		  `created_at` int unsigned DEFAULT NULL COMMENT '创建时间',
 		  `updated_at` int DEFAULT NULL COMMENT '更新时间',
 		  PRIMARY KEY (`id`),
 		  UNIQUE KEY `phone` (`phone`) USING BTREE COMMENT '手机号唯一',
@@ -33,10 +45,11 @@ func TestNewMysql(t *testing.T) {
 	assert.Nil(t, err)
 	passwd, err := bcrypt.GenerateFromPassword([]byte("123456"), bcrypt.DefaultCost)
 	assert.Nil(t, err)
-	user := entities.User{
+	user := testUser{
 		Nickname: "张三",
 		Phone:    "15106191191",
 		Password: string(passwd),
+		Status:   1,
 	}
 	err = db.Table("sys_user").Create(&user).Error
 	assert.Nil(t, err)
